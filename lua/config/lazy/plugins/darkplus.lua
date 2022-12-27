@@ -1,6 +1,6 @@
 local M = {
     dir = "~/Dev/lua/darkplus.nvim",
-    lazy = false,
+    lazy = true,
     config = function()
         vim.cmd [[colorscheme darkplus]]
     end

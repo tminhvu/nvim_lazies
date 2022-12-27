@@ -136,8 +136,7 @@ vim.api.nvim_create_autocmd({ 'BufEnter', 'FocusGained', 'InsertLeave', 'CursorH
 
 vim.opt.laststatus = 3 -- use global statusline
 
---vim.opt.winbar = [[ %{%get(b:, "file_icon_color", "")%}%{get(b:, "file_icon", "")}%{%get(b:, "winbar_color", "")%} %t %M%h%w%r ]]
-vim.opt.winbar = [[ %{%get(b:, "winbar_color", "")%}%{get(b:, "file_icon", "")} %f %M%h%w%r ]]
+vim.opt.winbar = [[ %{%get(b:, "winbar_color", "")%}%{get(b:, "file_icon", "")} %t %m%h%w%r ]]
 
 --vim.opt.statusline = [[%#StatusLine# %{get(g:, "branch_name", "")} %{get(b:, "lsp_server", "")}%{get(b:, "errors", "")}%{get(b:, "warnings", "")}%{get(b:, "hints", "")}%{get(b:, "infos", "")}%=  %c [%{get(b:, "file_icon", "")} %Y]  %l/%L ]]
 

@@ -144,8 +144,8 @@ local M = {
             cmp.setup.cmdline(':', {
                 mapping = cmp.mapping.preset.cmdline(),
                 sources = {
+                    { name = 'cmdline' },
                     { name = 'buffer' },
-                    { name = 'cmdline' }
                 }
             })
         end

@@ -40,7 +40,7 @@ local M = { 'kyazdani42/nvim-tree.lua',
                     enable = true
                 },
                 add_trailing = true,
-                full_name = false,
+                full_name = true,
                 icons = {
                     git_placement = "before",
                     glyphs = {

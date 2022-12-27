@@ -1,6 +1,6 @@
 local M = {
     dir = '~/Dev/lua/vim-nightfly-colors',
-    lazy = true,
+    lazy = false,
     config = function ()
         vim.g.nightflyWinSeparator = 2
         vim.g.nightflyUnderlineMatchParen = true

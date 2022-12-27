@@ -15,9 +15,6 @@ require("lazy").setup('config.lazy.plugins', {
     defaults = {
         lazy = true, -- should plugins be lazy-loaded?
     },
-    install = {
-        colorscheme = { "nightfly" },
-    },
     dev = {
         path = "~/Dev/lua",
         ---@type string[] plugins that match these patterns will use your local versions instead of being fetched from GitHub
@@ -30,6 +27,11 @@ require("lazy").setup('config.lazy.plugins', {
             -- open a terminal for the plugin dir
             ["<localleader>t"] = false
         },
+    },
+    change_detection = {
+        -- automatically check for config file changes and reload the ui
+        enabled = true,
+        notify = false, -- get a notification when changes are found
     },
     performance = {
         rtp = {
