@@ -42,7 +42,7 @@ local M = { 'kyazdani42/nvim-tree.lua',
                 add_trailing = true,
                 full_name = true,
                 icons = {
-                    git_placement = "before",
+                    git_placement = "after",
                     glyphs = {
                         git = {
                             unstaged = "us",
@@ -54,7 +54,7 @@ local M = { 'kyazdani42/nvim-tree.lua',
                             ignored = "ig",
                         },
                     },
-                    padding = "  "
+                    padding = " "
                 },
 
                 highlight_opened_files = "all"

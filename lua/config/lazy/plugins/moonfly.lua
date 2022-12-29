@@ -1,11 +1,10 @@
 local M = {
-    dir = '~/Dev/lua/vim-nightfly-colors',
-    lazy = false,
+    'bluz71/vim-moonfly-colors',
+    lazy = true,
     config = function ()
         vim.g.nightflyWinSeparator = 2
         vim.g.nightflyUnderlineMatchParen = true
-        vim.g.nightflyTransparent = true
-        vim.cmd.colorscheme 'nightfly'
+        vim.api.nvim_command [[colorscheme moonfly]]
     end
 }
 

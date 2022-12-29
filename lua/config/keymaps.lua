@@ -35,6 +35,9 @@ vim.api.nvim_set_keymap('n', '<F8>', ':silent! !thunar %:p:h<CR>', {})
 --to open terminal
 vim.api.nvim_set_keymap('n', '<F10>', ':!xfce4-terminal --tab<cr><cr>', {})
 
+-- to open file in browser
+vim.api.nvim_create_user_command('BrowserOpen', 'silent! !brave-browser %:p<CR>',{})
+
 --move in insertmode
 vim.api.nvim_set_keymap('i', '<m-h>', '<Left>', {})
 vim.api.nvim_set_keymap('i', '<m-l>', '<Right>', {})

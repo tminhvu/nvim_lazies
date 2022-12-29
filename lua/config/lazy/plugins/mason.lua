@@ -2,13 +2,13 @@ return {
     {
         "williamboman/mason.nvim",
         event = 'BufReadPost',
+        --lazy = false,
         dependencies = {
             'neovim/nvim-lspconfig',
             "williamboman/mason-lspconfig.nvim",
             'hrsh7th/cmp-nvim-lsp',
         },
         config = function()
-            print('hello')
             require("mason").setup()
             local mason_lspconfig = require('mason-lspconfig')
 
@@ -41,13 +41,14 @@ return {
             local capabilities = vim.lsp.protocol.make_client_capabilities()
             capabilities = require('cmp_nvim_lsp').default_capabilities()
 
-            require("mason-lspconfig").setup_handlers {
+            local lspconfig = require('lspconfig')
+            mason_lspconfig.setup_handlers {
                 -- The first entry (without a key) will be the default handler
                 -- and will be called for each installed server that doesn't have
                 -- a dedicated handler.
 
                 function(server_name) -- default handler (optional)
-                    require("lspconfig")[server_name].setup {
+                    lspconfig[server_name].setup {
                         on_attach = on_attach,
                         capabilities = capabilities,
                         flags = {
@@ -56,24 +57,102 @@ return {
                     }
                 end,
 
+                ["clangd"] = function()
+                    lspconfig.clangd.setup {
+                        on_attach = on_attach,
+                        capabilities = capabilities, flags = {
+                            debounce_text_changes = 150
+                        },
+                        root_dir = function(fname)
+                            return lspconfig.util.root_pattern(
+                                'src',
+                                '.clangd',
+                                'README.md',
+                                '.clang-tidy',
+                                --'.clang-format',
+                                'compile_commands.json',
+                                'compile_flags.txt',
+                                'configure.ac')(fname) or vim.fn.getcwd()
+                        end
+                    }
+                end,
+
+                ["jdtls"] = function()
+                    lspconfig.jdtls.setup {
+                        on_attach = on_attach,
+                        capabilities = capabilities,
+                        root_dir = function(fname)
+                            return lspconfig.util.root_pattern(
+                                'src',
+                                'build.xml',
+                                'pom.xml',
+                                'settings.gradle',
+                                'settings.gradle.kts',
+                                'README.md',
+                                '.git')(fname) or vim.fn.getcwd()
+                        end,
+                        filetypes = { "java" },
+                        single_file_support = true,
+                        settings = {
+                            java = {
+                                completion = {
+                                    overwrite = true
+                                }
+                            }
+                        },
+                    }
+                end,
+
+                ["tailwindcss"] = function()
+                    lspconfig.tailwindcss.setup({
+                        autostart = false,
+                        on_attach = on_attach,
+                        capabilities = capabilities,
+                        flags = {
+                            debounce_text_changes = 150
+                        }
+                    })
+                end,
+
+                ["eslint"] = function()
+                    lspconfig.eslint.setup({
+                        autostart = false,
+                        on_attach = on_attach,
+                        capabilities = capabilities,
+                        flags = {
+                            debounce_text_changes = 150
+                        }
+                    })
+                end,
+
+                ["astro"] = function()
+                    lspconfig.astro.setup({
+                        autostart = false,
+                        on_attach = on_attach,
+                        capabilities = capabilities,
+                        flags = {
+                            debounce_text_changes = 150
+                        }
+                    })
+                end,
+
+                ["marksman"] = function()
+                    lspconfig.marksman.setup {
+                        on_attach = on_attach,
+                        capabilities = capabilities, flags = {
+                            debounce_text_changes = 150
+                        },
+                        root_dir = function(fname)
+                            return lspconfig.util.root_pattern(
+                                'index.md',
+                                'README.md')(fname) or vim.fn.getcwd()
+                        end,
+                        single_file_support = true
+                    }
+                end,
 
                 ["sumneko_lua"] = function()
-                    local function lib()
-                        if vim.fn.getcwd() == "~/.config/nvim" then
-                            -- Make the server aware of Neovim runtime files
-                            -- Make runtime files discoverable to the server
-                            return vim.api.nvim_get_runtime_file('', true)
-                        end
-                        return {}
-                    end
-
-                    local function run_path()
-                        local runtime_path = vim.split(package.path, ';')
-                        table.insert(runtime_path, 'lua/?.lua')
-                        table.insert(runtime_path, 'lua/?/init.lua')
-                    end
-
-                    require('lspconfig').sumneko_lua.setup {
+                    lspconfig.sumneko_lua.setup {
                         on_attach = on_attach,
                         capabilities = capabilities,
                         debounce_text_changes = 150,
@@ -82,8 +161,6 @@ return {
                                 runtime = {
                                     -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
                                     version = 'LuaJIT',
-                                    -- Setup your lua path
-                                    path = run_path(),
                                 },
                                 diagnostics = {
                                     -- Get the language server to recognize the `vim` global
@@ -91,7 +168,7 @@ return {
                                 },
                                 workspace = {
                                     -- Make the server aware of Neovim runtime files
-                                    library = lib(),
+                                    library = vim.api.nvim_get_runtime_file("", true),
                                 },
                                 -- Do not send telemetry data containing a randomized but unique identifier
                                 telemetry = {
@@ -100,16 +177,14 @@ return {
                             },
                         },
                         root_dir = function(fname)
-                            return require('lspconfig').util.root_pattern(
-                                '.gitignore',
+                            return lspconfig.util.root_pattern(
                                 'README.md',
                                 '.luarc.json',
-                                'src',
+                                '.gitignore',
+                                '.git',
                                 'main.lua',
-                                'init.lua',
-                                '.git')(fname) or vim.fn.getcwd()
+                                'src')(fname) or vim.fn.getcwd()
                         end,
-                        single_file_support = true
                     }
                 end
             }

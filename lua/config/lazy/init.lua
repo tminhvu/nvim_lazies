@@ -11,13 +11,12 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.runtimepath:prepend(lazypath)
 
-require("lazy").setup('config.lazy.plugins', {
+require('lazy').setup('config.lazy.plugins', {
     defaults = {
         lazy = true, -- should plugins be lazy-loaded?
     },
     dev = {
         path = "~/Dev/lua",
-        ---@type string[] plugins that match these patterns will use your local versions instead of being fetched from GitHub
         patterns = {}, -- For example {"folke"}
     },
     ui = {
