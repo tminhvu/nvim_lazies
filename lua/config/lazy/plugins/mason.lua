@@ -17,6 +17,16 @@ return {
                     "tailwindcss", "jsonls", "marksman", "sumneko_lua" }
             }
 
+            -- SUMNEKO_LUA for Lua
+            local function lib()
+                if vim.fn.getcwd() == "~/.config/nvim" then
+                    -- Make the server aware of Neovim runtime files
+                    -- Make runtime files discoverable to the server
+                    return vim.api.nvim_get_runtime_file('', true)
+                end
+                return {}
+            end
+
             -- LSP SERVER CONFIG
             local opts = { noremap = true, silent = true }
             local on_attach = function(client, bufnr)
@@ -168,7 +178,8 @@ return {
                                 },
                                 workspace = {
                                     -- Make the server aware of Neovim runtime files
-                                    library = vim.api.nvim_get_runtime_file("", true),
+                                    library = lib()
+                                    --library = vim.api.nvim_get_runtime_file("", true),
                                 },
                                 -- Do not send telemetry data containing a randomized but unique identifier
                                 telemetry = {

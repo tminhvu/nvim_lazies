@@ -54,7 +54,7 @@ local M = { 'kyazdani42/nvim-tree.lua',
                             ignored = "ig",
                         },
                     },
-                    padding = " "
+                    padding = "  "
                 },
 
                 highlight_opened_files = "all"

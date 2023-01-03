@@ -3,7 +3,7 @@ local M = {
     event = 'BufReadPost',
     config = function ()
         require('nvim-treesitter.configs').setup{
-            ensure_installed = { "c", "java", "bash", "css", "lua", "html", "javascript", "typescript", "tsx", "json" },
+            ensure_installed = { "c", "java", "bash", "css", "lua", "html", "javascript", "typescript", "tsx", "json", "markdown", "markdown_inline" },
             sync_install = false,
             highlight = {
                 enable = true, -- false will disable the whole extension
