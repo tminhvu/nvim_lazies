@@ -29,7 +29,7 @@ return {
 
             -- LSP SERVER CONFIG
             local opts = { noremap = true, silent = true }
-            local on_attach = function(client, bufnr)
+            local on_attach = function(_, bufnr)
                 -- See `:help vim.lsp.*` for documentation on any of the below functions
                 vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
                 vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
@@ -48,8 +48,8 @@ return {
                     opts)
             end
 
-            local capabilities = vim.lsp.protocol.make_client_capabilities()
-            capabilities = require('cmp_nvim_lsp').default_capabilities()
+            --local capabilities = vim.lsp.protocol.make_client_capabilities()
+            local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
             local lspconfig = require('lspconfig')
             mason_lspconfig.setup_handlers {

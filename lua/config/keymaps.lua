@@ -74,10 +74,6 @@ vim.api.nvim_create_user_command('Qa', 'qa', {})
 
 -- OTHER
 vim.cmd [[
-    " to compile and run python code
-    autocmd FileType python nnoremap <buffer> <F9> :update<bar>!python %<CR>
-    autocmd FileType python inoremap <buffer> <F9> <Esc>:update<bar>!python %<CR>
-
     " to compile and run c code
     autocmd FileType c nnoremap <buffer> <F9> :call RunC() <cr>
     " function to compile and run C code
@@ -102,7 +98,7 @@ vim.cmd [[
 
     autocmd FileType lua nnoremap <buffer> <F9> :call RunLua()<cr>
     function! RunLua()
-        split | term lua %
+        split | term l %
         startinsert
     endfunction
 ]]
