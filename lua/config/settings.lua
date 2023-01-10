@@ -48,19 +48,13 @@ autocmd BufWritePre * %s/\s\+$//e
 ]]
 
 -- Foldings
-vim.o.foldmethod = "indent"
-vim.o.foldtext = ""
+--vim.o.foldmethod = "indent"
+vim.o.foldmethod = "expr"
+vim.o.foldexpr = "nvim_treesitter#foldexpr()"
+
 vim.o.foldlevel = 20
 vim.o.foldenable = false
-
---vim.o.foldmethod = "expr"
---vim.o.foldexpr = "nvim_treesitter#foldexpr()"
-----vim.o.foldtext = [[substitute(getline(v:foldstart),'\\t',repeat('\ ',&tabstop),'g').'...'.trim(getline(v:foldend)) . ' (' . (v:foldend - v:foldstart + 1) . ' lines)']]
---vim.o.fillchars = "fold: "
---vim.o.foldlevel = 20
---vim.o.foldenable = false
 vim.o.foldminlines = 1
-
 --Set highlight on search
 -- vim.o.hlsearch = true
 
