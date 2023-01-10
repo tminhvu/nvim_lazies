@@ -1,4 +1,4 @@
-vim.o.guifont = 'Iosevka Term SS15 Semibold:h12'
+vim.o.guifont = 'Iosevka Fixed SS15 Semibold:h12'
 --vim.g.neovide_floating_blur_amount_x = 2.0
 --vim.g.neovide_floating_blur_amount_y = 2.0
 vim.g.neovide_transparency = 1
