@@ -2,6 +2,7 @@ local M = { 'kyazdani42/nvim-tree.lua',
     cmd = { 'NvimTreeToggle' },
     config = function()
         require 'nvim-tree'.setup {
+            sync_root_with_cwd = true,
             view = {
                 preserve_window_proportions = true,
                 number = false,
