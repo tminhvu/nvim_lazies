@@ -7,7 +7,7 @@
 vim.o.hidden = true
 
 -- dynamic title
-vim.o.title = true
+--vim.o.title = true
 
 -- somrthing to do with tab
 vim.o.shiftwidth = 4
@@ -49,12 +49,19 @@ autocmd BufWritePre * %s/\s\+$//e
 
 -- Foldings
 --vim.o.foldmethod = "indent"
+--vim.o.foldtext = ""
+--vim.o.foldlevel = 20
+--vim.o.foldenable = false
+--vim.o.foldminlines = 1
+
 vim.o.foldmethod = "expr"
 vim.o.foldexpr = "nvim_treesitter#foldexpr()"
-
+vim.o.foldtext = [[substitute(getline(v:foldstart),'\\t',repeat('\ ',&tabstop),'g').'...'.trim(getline(v:foldend)) . ' (' . (v:foldend - v:foldstart + 1) . ' lines)']]
+vim.o.fillchars = "fold: "
 vim.o.foldlevel = 20
 vim.o.foldenable = false
 vim.o.foldminlines = 1
+
 --Set highlight on search
 -- vim.o.hlsearch = true
 
@@ -97,5 +104,3 @@ vim.o.completeopt = 'menuone,noinsert,noselect'
 vim.o.termguicolors = true
 
 vim.lsp.set_log_level('off')
-
--- vim: ts=2 sts=2 sw=2 et
