@@ -22,6 +22,7 @@ local M = {
                     DiagnosticUnderlineHint = { sp = colors.light_gray, undercurl = true },
                     DiagnosticUnderlineInfo = { sp = colors.green, undercurl = true },
                     DiagnosticUnderlineWarn = { sp = colors.yellow, undercurl = true },
+                    GitSignsCurrentLineBlame = { fg = colors.light_gray }
                 }
             end
             -- colors = {
