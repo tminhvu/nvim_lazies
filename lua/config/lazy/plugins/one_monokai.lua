@@ -17,7 +17,6 @@ local M = {
                     WinBarError = { fg = colors.pink, bold = true, italic = true },
                     IndentBlanklineChar = { fg = colors.dark_blue },
                     ['@punctuation.bracket'] = { fg = colors.gray },
-                    Conceal = { fg = colors.fg, bg = colors.dark_gray },
                     DiagnosticUnderlineError = { sp = colors.red, undercurl = true },
                     DiagnosticUnderlineHint = { sp = colors.light_gray, undercurl = true },
                     DiagnosticUnderlineInfo = { sp = colors.green, undercurl = true },
