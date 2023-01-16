@@ -15,13 +15,20 @@ local M = {
                     WinBar = { fg = colors.cyan, bold = true },
                     WinBarNC = { fg = colors.light_gray, bold = false },
                     WinBarError = { fg = colors.pink, bold = true, italic = true },
+
                     IndentBlanklineChar = { fg = colors.dark_blue },
+
                     ['@punctuation.bracket'] = { fg = colors.gray },
+
                     DiagnosticUnderlineError = { sp = colors.red, undercurl = true },
                     DiagnosticUnderlineHint = { sp = colors.light_gray, undercurl = true },
                     DiagnosticUnderlineInfo = { sp = colors.green, undercurl = true },
                     DiagnosticUnderlineWarn = { sp = colors.yellow, undercurl = true },
-                    GitSignsCurrentLineBlame = { fg = colors.light_gray }
+
+                    GitSignsCurrentLineBlame = { fg = colors.light_gray },
+
+                    TelescopeSelection = { bg = colors.vulcan },
+                    TelescopeMatching = { fg = colors.yellow }
                 }
             end
             -- colors = {
