@@ -5,18 +5,20 @@ local M = {
         require('one_monokai').setup({
             transparent = false,
             colors = {
-                bg = '#18191a'
+                bg = '#18191a',
+                cline = "#282c34",
             },
             themes = function(colors)
                 return {
                     StatusLine = { bold = true },
+                    CursorLine = { bg = colors.cline },
                     EndOfBuffer = { fg = colors.bg },
                     VertSplit = { fg = colors.dark_gray },
                     WinBar = { fg = colors.cyan, bold = true },
                     WinBarNC = { fg = colors.light_gray, bold = false },
                     WinBarError = { fg = colors.pink, bold = true, italic = true },
 
-                    IndentBlanklineChar = { fg = colors.dark_blue },
+                    IndentBlanklineChar = { fg = colors.vulcan },
 
                     ['@punctuation.bracket'] = { fg = colors.gray },
 
@@ -27,7 +29,7 @@ local M = {
 
                     GitSignsCurrentLineBlame = { fg = colors.light_gray },
 
-                    TelescopeSelection = { bg = colors.vulcan },
+                    TelescopeSelection = { link = 'CursorLine' },
                     TelescopeMatching = { fg = colors.yellow }
                 }
             end
