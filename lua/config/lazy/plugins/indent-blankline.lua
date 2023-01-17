@@ -5,14 +5,12 @@ local M = { 'lukas-reineke/indent-blankline.nvim',
             buftype_exclude = { "terminal", "nofile" },
             filetype_exclude = {
                 "help",
-                "packer",
                 "NvimTree",
-                "Trouble",
             },
 
             -- , '┆', '┊' ┆ ┇ ┊ ┋ ┆ ┇ ┊ ┋ '|', '¦', '┆', '┊' ⋅
-            char = "│",
-            show_trailing_blankline_indent = false,
+            char = "┊",
+            show_trailing_blankline_indent = true,
             use_treesitter = true,
             space_char_blankline = ' ',
              context_patterns = {
