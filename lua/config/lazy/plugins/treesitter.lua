@@ -1,6 +1,9 @@
 local M = {
     'nvim-treesitter/nvim-treesitter',
     event = 'BufReadPost',
+    dependencies = {
+        'windwp/nvim-ts-autotag'
+    },
     config = function ()
         require('nvim-treesitter.configs').setup{
             ensure_installed = { "c", "java", "bash", "css", "lua", "html", "javascript", "typescript", "tsx", "json", "markdown", "markdown_inline" },
@@ -14,6 +17,9 @@ local M = {
             },
             indent = {
                 enable = true,
+            },
+            autotag = {
+                enable = true
             },
             textobjects = {
                 select = {
