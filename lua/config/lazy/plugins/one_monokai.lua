@@ -1,6 +1,6 @@
 local M = {
     'cpea2506/one_monokai.nvim',
-    lazy = false,
+    lazy = true,
     config = function()
         require('one_monokai').setup({
             transparent = false,
