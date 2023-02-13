@@ -5,7 +5,8 @@ local M = {
         require('one_monokai').setup({
             transparent = false,
             colors = {
-                bg = '#18191a',
+                --bg = '#18191a',
+                bg = '#1F2329',
                 cline = "#282c34",
             },
             themes = function(colors)
@@ -17,20 +18,18 @@ local M = {
                     WinBar = { fg = colors.cyan, bold = true },
                     WinBarNC = { fg = colors.light_gray, bold = false },
                     WinBarError = { fg = colors.pink, bold = true, italic = true },
-
                     IndentBlanklineChar = { fg = colors.vulcan },
-
                     ['@punctuation.bracket'] = { fg = colors.gray },
-
                     DiagnosticUnderlineError = { sp = colors.red, undercurl = true },
                     DiagnosticUnderlineHint = { sp = colors.light_gray, undercurl = true },
                     DiagnosticUnderlineInfo = { sp = colors.green, undercurl = true },
                     DiagnosticUnderlineWarn = { sp = colors.yellow, undercurl = true },
-
                     GitSignsCurrentLineBlame = { fg = colors.light_gray },
-
                     TelescopeSelection = { link = 'CursorLine' },
-                    TelescopeMatching = { fg = colors.yellow }
+                    TelescopeMatching = { fg = colors.yellow },
+                    Pmenu = { fg = colors.fg, bg = colors.dark_blue },
+                    NvimTreeNormal = { fg = colors.fg, bg = colors.black },
+                    NvimTreeIndentMarker = { fg = colors.vulcan }
                 }
             end
             -- colors = {
