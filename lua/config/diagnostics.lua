@@ -22,10 +22,10 @@ vim.diagnostic.config({
     update_in_insert = false,
     severity_sort = true,
     underline = {
-        severity = {
-            max = vim.diagnostic.severity.ERROR,
-            min = vim.diagnostic.severity.WARN
-        }
+        -- severity = {
+        --     max = vim.diagnostic.severity.ERROR,
+        --     min = vim.diagnostic.severity.WARN
+        -- }
     },
     sign = true
 })
