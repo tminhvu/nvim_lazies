@@ -18,6 +18,10 @@
                 "path": "./react.json"
             },
             {
+                "language": "javascriptreact",
+                "path": "./react-native.json"
+            },
+            {
                 "language": "markdown",
                 "path": "./markdown.json"
             },
