@@ -1,7 +1,7 @@
 local M = {
     "catppuccin/nvim",
     name = "catppuccin",
-    lazy = false,
+    lazy = true,
     config = function()
         require("catppuccin").setup({
             flavour = "mocha", -- Can be one of: latte, frappe, macchiato, mocha
@@ -18,7 +18,7 @@ local M = {
                 booleans = { "bold" },
                 numbers = {},
                 types = { 'bold' },
-                strings = {},
+                strings = { 'italic' },
                 variables = {},
             },
             integrations = {
@@ -53,8 +53,8 @@ local M = {
                 barbar = false,
                 markdown = true,
                 lightspeed = false,
-                ts_rainbow = true,
-                mason = false,
+                ts_rainbow = false,
+                mason = true,
                 neotest = false,
                 noice = false,
                 hop = false,
@@ -62,7 +62,7 @@ local M = {
                 cmp = true,
                 dap = { enabled = false, enable_ui = false },
                 notify = false,
-                symbols_outline = false,
+                symbols_outline = true,
                 coc_nvim = false,
                 leap = false,
                 neotree = { enabled = false, show_root = true, transparent_panel = false },
@@ -76,10 +76,31 @@ local M = {
                 fidget = false,
             },
             color_overrides = {
-                mocha = {
-                },
             },
             highlight_overrides = {
+                macchiato = function(cp)
+                    return {
+                        -- For base configs.
+                        WinBar = { bg = cp.none, fg = cp.teal, style = { 'bold' } },
+                        WinBarNC = { bg = cp.none, fg = cp.overlay1 },
+                        WinBarError = { bg = cp.none, fg = cp.red, style = { 'bold', 'italic' } },
+                        StatusLine = { fg = cp.mantle, bg = cp.overlay0, style = { 'bold' } },
+                        NvimTreeOpenedFile = { fg = cp.green, style = { 'bold' } },
+                        -- For native lsp configs.
+                        DiagnosticVirtualTextError = { bg = cp.none, fg = cp.surface2 },
+                        DiagnosticVirtualTextWarn = { bg = cp.none, fg = cp.surface2 },
+                        DiagnosticVirtualTextInfo = { bg = cp.none, fg = cp.surface2 },
+                        DiagnosticVirtualTextHint = { bg = cp.none, fg = cp.surface2 },
+                        DiagnosticHint = { style = { 'bold' } },
+                        DiagnosticWarn = { style = { 'bold' } },
+                        DiagnosticError = { style = { 'bold' } },
+                        DiagnosticInfo = { style = { 'bold' } },
+                        DiagnosticSignHint = { style = { 'bold' } },
+                        DiagnosticSignWarn = { style = { 'bold' } },
+                        DiagnosticSignError = { style = { 'bold' } },
+                        DiagnosticSignInfo = { style = { 'bold' } },
+                    }
+                end,
                 mocha = function(cp)
                     return {
                         -- For base configs.
@@ -88,13 +109,11 @@ local M = {
                         WinBarError = { bg = cp.none, fg = cp.red, style = { 'bold', 'italic' } },
                         StatusLine = { fg = cp.mantle, bg = cp.overlay0, style = { 'bold' } },
                         NvimTreeOpenedFile = { fg = cp.green, style = { 'bold' } },
-
                         -- For native lsp configs.
                         DiagnosticVirtualTextError = { bg = cp.none, fg = cp.surface2 },
                         DiagnosticVirtualTextWarn = { bg = cp.none, fg = cp.surface2 },
                         DiagnosticVirtualTextInfo = { bg = cp.none, fg = cp.surface2 },
                         DiagnosticVirtualTextHint = { bg = cp.none, fg = cp.surface2 },
-
                         DiagnosticHint = { style = { 'bold' } },
                         DiagnosticWarn = { style = { 'bold' } },
                         DiagnosticError = { style = { 'bold' } },

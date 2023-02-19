@@ -5,8 +5,8 @@ local M = {
         require('one_monokai').setup({
             transparent = false,
             colors = {
-                --bg = '#18191a',
-                bg = '#1F2329',
+                bg = '#18191a',
+                --bg = '#1F2329',
                 cline = "#282c34",
             },
             themes = function(colors)
@@ -16,7 +16,7 @@ local M = {
                     EndOfBuffer = { fg = colors.bg },
                     VertSplit = { fg = colors.dark_gray },
                     WinBar = { fg = colors.cyan, bold = true },
-                    WinBarNC = { fg = colors.light_gray, bold = false },
+                    WinBarNC = { fg = colors.light_gray, bold = false, italic = true },
                     WinBarError = { fg = colors.pink, bold = true, italic = true },
                     IndentBlanklineChar = { fg = colors.vulcan },
                     ['@punctuation.bracket'] = { fg = colors.gray },
