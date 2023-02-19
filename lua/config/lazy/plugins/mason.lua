@@ -14,7 +14,7 @@ return {
 
             mason_lspconfig.setup {
                 ensure_installed = { "clangd", "jdtls", "bashls", "cssls", "tsserver", "eslint", "html", "astro",
-                    "tailwindcss", "jsonls", "marksman", "sumneko_lua" }
+                    "tailwindcss", "jsonls", "marksman", "lua_ls" }
             }
 
             -- SUMNEKO_LUA for Lua
