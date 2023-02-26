@@ -7,6 +7,14 @@
     "contributes": {
         "snippets": [
             {
+                "language": "dart",
+                "path": "./dart.json"
+            },
+            {
+                "language": "dart",
+                "path": "./flutter.json"
+            },
+            {
                 "language": [
                     "javascript",
                     "javascriptreact"
