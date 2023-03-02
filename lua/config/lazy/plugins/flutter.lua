@@ -31,7 +31,14 @@ local M = {
                         '<cmd>lua vim.lsp.buf.format { async = true }<CR>',
                         opts)
                 end,
-                capabilities = capabilities
+                capabilities = capabilities,
+                settings = {
+                    showTodos = true,
+                    completeFunctionCalls = true,
+                    --analysisExcludedFolders = { "<path-to-flutter-sdk-packages>" },
+                    --renameFilesWithClasses = "prompt", -- "always"
+                    enableSnippets = false,
+                }
             }
         })
     end
