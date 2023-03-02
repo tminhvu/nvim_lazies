@@ -56,7 +56,8 @@ autocmd BufWritePre * %s/\s\+$//e
 
 vim.o.foldmethod = "expr"
 vim.o.foldexpr = "nvim_treesitter#foldexpr()"
-vim.o.foldtext = [[substitute(getline(v:foldstart),'\\t',repeat('\ ',&tabstop),'g').'...'.trim(getline(v:foldend)) . ' (' . (v:foldend - v:foldstart + 1) . ' lines)']]
+vim.o.foldtext =
+[[substitute(getline(v:foldstart),'\\t',repeat('\ ',&tabstop),'g').'...'.trim(getline(v:foldend)) . ' (' . (v:foldend - v:foldstart + 1) . ' lines)']]
 vim.o.fillchars = "fold: "
 vim.o.foldlevel = 20
 vim.o.foldenable = false
@@ -102,5 +103,14 @@ vim.o.completeopt = 'menuone,noinsert,noselect'
 
 -- COLORSCHEME
 vim.o.termguicolors = true
+
+vim.api.nvim_create_autocmd('FileType', {
+    pattern = 'dart',
+    callback = function()
+        vim.bo.shiftwidth = 2
+        vim.bo.expandtab = true
+        vim.bo.tabstop = 2
+    end,
+})
 
 vim.lsp.set_log_level('off')
