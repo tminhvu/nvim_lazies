@@ -68,6 +68,9 @@ vim.api.nvim_create_autocmd({ 'BufEnter' }, {
         if filetype == 'NvimTree' then
             vim.opt_local.winbar = '   NVIMTREE'
             --          
+        elseif filetype == 'flutterToolsOutline' then
+            --              
+            vim.opt_local.winbar = '   FLUTTER OUTLINE'
         end
     end,
     group = init_group
@@ -129,7 +132,6 @@ vim.api.nvim_create_autocmd({ 'BufEnter', 'FocusGained', 'InsertLeave', 'CursorH
         else
             vim.b.infos = ''
         end
-
     end,
     group = init_group,
 })
@@ -140,5 +142,6 @@ vim.opt.winbar = [[ %{%get(b:, "winbar_color", "")%}%{get(b:, "file_icon", "")} 
 
 --vim.opt.statusline = [[%#StatusLine# %{get(g:, "branch_name", "")} %{get(b:, "lsp_server", "")}%{get(b:, "errors", "")}%{get(b:, "warnings", "")}%{get(b:, "hints", "")}%{get(b:, "infos", "")}%=  %c [%{get(b:, "file_icon", "")} %Y]  %l/%L ]]
 
-vim.opt.statusline = '  %{get(g:, "branch_name", "")}  %{get(b:, "lsp_server", "")} %{get(b:, "errors", "")}%{get(b:, "warnings", "")}%{get(b:, "hints", "")}%{get(b:, "infos", "")} %= %Y  Col %c, Ln %l/%L  '
+vim.opt.statusline =
+'  %{get(g:, "branch_name", "")}  %{get(b:, "lsp_server", "")} %{get(b:, "errors", "")}%{get(b:, "warnings", "")}%{get(b:, "hints", "")}%{get(b:, "infos", "")} %= %Y  Col %c, Ln %l/%L  '
 return M
