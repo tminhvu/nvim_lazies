@@ -118,8 +118,9 @@ local M = {
                     },
                     padding = "  "
                 },
-
-                highlight_opened_files = "all"
+                highlight_git = true,
+                highlight_opened_files = "name",
+                highlight_modified = "icon"
             },
             git = {
                 enable = true,
