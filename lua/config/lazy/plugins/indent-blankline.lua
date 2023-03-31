@@ -10,8 +10,8 @@ local M = { 'lukas-reineke/indent-blankline.nvim',
                 "NvimTree",
             },
 
-            -- , '┆', '┊' ┆ ┇ ┊ ┋ ┆ ┇ ┊ ┋ '|', '¦', '┆', '┊' ⋅
-            char = "┊",
+            -- , '┆', '┊' ┆ ┇ ┊ ┋ ┆ ┇ ┊ ┋ '|', '¦', '┆', '┊' ⋅   
+            char = "",
             show_trailing_blankline_indent = false,
             use_treesitter = true,
             space_char_blankline = ' ',
