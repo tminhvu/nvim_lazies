@@ -65,6 +65,7 @@ local M = {
             end,
             sync_root_with_cwd = true,
             view = {
+                width = 35,
                 preserve_window_proportions = true,
                 number = false,
                 signcolumn = "yes",
