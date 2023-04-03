@@ -9,6 +9,10 @@ local M = {
         local capabilities = require('cmp_nvim_lsp').default_capabilities()
         require('flutter-tools').setup({
             flutter_path = "/home/mx-vu/Src/flutter/bin/flutter",
+            outline = {
+                open_cmd = "35vnew", -- command to use to open the outline buffer
+                auto_open = false -- if true this will open the outline automatically when it is first populated
+            },
             lsp = {
                 on_attach = function(_, bufnr)
                     local opts = { noremap = true, silent = true }
