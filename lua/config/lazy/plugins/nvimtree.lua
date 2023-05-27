@@ -71,7 +71,6 @@ local M = {
                 signcolumn = "yes",
                 --adaptive_size = true
                 side = "left",
-                hide_root_folder = true
             },
             diagnostics = {
                 enable = true,
@@ -99,6 +98,7 @@ local M = {
                 },
             },
             renderer = {
+                root_folder_label = false,
                 indent_markers = {
                     enable = true
                 },
@@ -119,7 +119,7 @@ local M = {
                     },
                     padding = "  "
                 },
-                highlight_git = true,
+                highlight_git = false,
                 highlight_opened_files = "name",
                 highlight_modified = "icon"
             },

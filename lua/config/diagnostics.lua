@@ -8,18 +8,17 @@
 
 -- diagnostics config
 vim.diagnostic.config({
-    virtual_text = false,
-    --[[virtual_text = {
+    virtual_text = {
         spacing = 4,
         prefix = ' ', --ඞ
         suffix = '',
         severity = {
-            max = vim.diagnostic.severity.ERROR,
-            min = vim.diagnostic.severity.WARN,
+            --max = vim.diagnostic.severity.ERROR,
+            --min = vim.diagnostic.severity.WARN,
             --      vim.diagnostic.severity.INFO,
             --      vim.diagnostic.severity.HINT
         }
-    },--]]
+    },
     update_in_insert = true,
     severity_sort = true,
     underline = {
@@ -29,9 +28,6 @@ vim.diagnostic.config({
         -- }
     },
     sign = true,
-    virtual_lines = {
-        only_current_line = true
-    }
 })
 
 -- diagnostic sign 

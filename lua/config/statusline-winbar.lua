@@ -71,7 +71,7 @@ vim.api.nvim_create_autocmd({ 'BufEnter' }, {
         elseif filetype == 'flutterToolsOutline' then
             --              
             vim.opt_local.winbar = '   FLUTTER OUTLINE'
-            vim.opt_local.wrap = true
+ --           vim.opt_local.wrap = true
         end
     end,
     group = init_group

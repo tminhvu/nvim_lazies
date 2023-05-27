@@ -1,4 +1,5 @@
-local M = { 'lukas-reineke/indent-blankline.nvim',
+local M = {
+    'lukas-reineke/indent-blankline.nvim',
     event = 'BufReadPost',
     config = function()
         -- vim.opt.list = true
@@ -11,10 +12,10 @@ local M = { 'lukas-reineke/indent-blankline.nvim',
             },
 
             -- , '┆', '┊' ┆ ┇ ┊ ┋ ┆ ┇ ┊ ┋ '|', '¦', '┆', '┊' ⋅   
-            char = "",
+            char = "┊",
             show_trailing_blankline_indent = false,
             use_treesitter = true,
-            space_char_blankline = ' ',
+            show_current_context = true,
             context_patterns = {
                 "class",
                 "return",

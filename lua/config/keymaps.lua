@@ -101,6 +101,12 @@ vim.cmd [[
         split | term l %
         startinsert
     endfunction
+
+    autocmd FileType dart nnoremap <buffer> <F9> :call RunDart()<cr>
+    function! RunDart()
+        split | term dart run
+        startinsert
+    endfunction
 ]]
 
 -- Diagnostic keymaps
