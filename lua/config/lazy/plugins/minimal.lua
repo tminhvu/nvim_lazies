@@ -1,6 +1,6 @@
 local M = {
     dir='~/Dev/lua/minimal.nvim',
-    lazy = false,
+    lazy = true,
     config = function()
         vim.g.minimal_italic_comments = true --Make comments italic
         vim.g.minimal_italic_keywords = false --Make keywords italic
