@@ -1,12 +1,14 @@
 local M = {
     'nvim-treesitter/nvim-treesitter',
     event = 'BufReadPost',
+    commit = '33eb472b459f1d2bf49e16154726743ab3ca1c6d', -- remove when dart freezing is solved
     dependencies = {
         'windwp/nvim-ts-autotag',
     },
     config = function()
         require('nvim-treesitter.configs').setup {
-            ensure_installed = { "c", "java", "bash", "css", "lua", "html", "javascript", "typescript", "tsx", "json", "markdown", "markdown_inline" },
+            ensure_installed = { "c", "java", "bash", "css", "lua", "html", "javascript", "typescript", "tsx", "json",
+                "markdown", "markdown_inline", "dart", "astro" },
             sync_install = false,
             highlight = {
                 enable = true, -- false will disable the whole extension
