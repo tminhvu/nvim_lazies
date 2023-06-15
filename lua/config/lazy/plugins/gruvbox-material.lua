@@ -3,7 +3,7 @@ local M = {
     lazy = true,
     config = function()
         vim.g.gruvbox_material_background = "hard"
-        vim.g.gruvbox_material_foreground = "original"
+        vim.g.gruvbox_material_foreground = "mix"
         vim.g.gruvbox_material_better_performance = true
         vim.g.gruvbox_material_enable_bold = true
         vim.g.gruvbox_material_enable_italic = true
@@ -12,8 +12,8 @@ local M = {
         vim.g.gruvbox_material_transparent_background = false
         vim.g.gruvbox_material_visual = "grey background"
         vim.g.gruvbox_material_colors_override = {
-            bg_dim = { '#1c1c1c', '230' },
-            bg0 = { '#141617', '232' },
+            bg_dim = { '#1f1f1f', '230' },
+            bg0 = { '#1c1c1c', '232' },
         }
         vim.g.gruvbox_material_diagnostic_line_highlight = true
         vim.g.gruvbox_material_diagnostic_virtual_text = 'colored'
@@ -34,7 +34,8 @@ local M = {
         vim.api.nvim_set_hl(0, 'TSPunctBracket', { link = 'Grey' })
         vim.api.nvim_set_hl(0, 'TSTagDelimiter', { link = 'Grey' })
         vim.api.nvim_set_hl(0, 'TSTagAttribute', { link = 'TSAttribute' })
-        vim.api.nvim_set_hl(0, 'NvimTreeOpenedFile', { fg = "#83a598", bold = true })
+        vim.api.nvim_set_hl(0, 'NvimTreeOpenedFile', { fg = '#83a598', bold = true })
+        vim.api.nvim_set_hl(0, 'NvimTreeCursorLine', { bg = '#2c2c2c' })
     end
 }
 
