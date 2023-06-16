@@ -84,10 +84,11 @@ local M = {
                     info = "I",
                     warning = "W",
                     error = "E",
-                }, severity = {
-                min = vim.diagnostic.severity.WARN,
-                max = vim.diagnostic.severity.ERROR
-            },
+                },
+                severity = {
+                    --               min = vim.diagnostic.severity.WARN,
+                    --               max = vim.diagnostic.severity.ERROR
+                },
             },
             actions = {
                 open_file = {
