@@ -71,10 +71,10 @@ local M = {
                         maxwidth = 40,
                         mode = "symbol_text",
                         menu = ({
-                           -- nvim_lsp = "[L]",
-                           -- luasnip = "[S]",
-                           -- buffer = "[B]",
-                           -- path = "[P]"
+                            -- nvim_lsp = "[L]",
+                            -- luasnip = "[S]",
+                            -- buffer = "[B]",
+                            -- path = "[P]"
                         })
                     }),
                 },
@@ -127,9 +127,9 @@ local M = {
                 }),
                 sources = cmp.config.sources({
                     { name = 'nvim_lsp', max_item_count = 35 },
-                    { name = 'luasnip', max_item_count = 5 },
-                    { name = 'path', max_item_count = 10 },
-                    { name = 'buffer', max_item_count = 10 }
+                    { name = 'luasnip',  max_item_count = 5 },
+                    { name = 'path',     max_item_count = 10 },
+                    { name = 'buffer',   max_item_count = 10 }
                 }),
             }
 
