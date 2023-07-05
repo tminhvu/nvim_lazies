@@ -87,7 +87,6 @@ vim.o.updatetime = 250
 
 -- show errors and such in line numbers
 --vim.o.signcolumn = 'number' -- auto, yes
-vim.o.signcolumn = 'auto'
 vim.o.signcolumn = 'auto:2'
 
 -- cursor line
@@ -115,4 +114,5 @@ vim.api.nvim_create_autocmd('FileType', {
 })
 
 vim.lsp.set_log_level('off')
+
 vim.o.mousemodel = 'extend'
