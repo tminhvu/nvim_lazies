@@ -88,6 +88,7 @@ vim.o.updatetime = 250
 -- show errors and such in line numbers
 --vim.o.signcolumn = 'number' -- auto, yes
 vim.o.signcolumn = 'auto'
+vim.o.signcolumn = 'auto:2'
 
 -- cursor line
 vim.o.cursorline = true
