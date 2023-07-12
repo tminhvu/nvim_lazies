@@ -118,7 +118,7 @@ local M = {
                             ignored = "ig",
                         },
                     },
-                    padding = "  "
+                    padding = " "
                 },
                 highlight_git = false,
                 highlight_opened_files = "name",
