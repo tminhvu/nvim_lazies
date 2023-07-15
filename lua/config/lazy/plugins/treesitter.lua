@@ -9,7 +9,7 @@ local M = {
         require('nvim-treesitter.configs').setup {
             ensure_installed = { "c", "java", "bash", "css", "lua", "html", "javascript", "typescript", "tsx", "json",
                 "markdown", "markdown_inline", "dart", "astro" },
-            sync_install = false,
+            sync_install = true,
             highlight = {
                 enable = true, -- false will disable the whole extension
                 additional_vim_regex_highlighting = false
