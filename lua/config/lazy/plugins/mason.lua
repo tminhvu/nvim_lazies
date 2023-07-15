@@ -29,7 +29,8 @@ return {
 
             -- LSP SERVER CONFIG
             local opts = { noremap = true, silent = true }
-            local on_attach = function(_, bufnr)
+            local on_attach = function(client, bufnr)
+                client.server_capabilities.semanticTokensProvider = nil
                 -- See `:help vim.lsp.*` for documentation on any of the below functions
                 vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
                 vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
@@ -63,15 +64,16 @@ return {
                         capabilities = capabilities,
                         flags = {
                             debounce_text_changes = 150
-                        }
+                        },
                     }
                 end,
 
                 ["clangd"] = function()
                     lspconfig.clangd.setup {
                         on_attach = on_attach,
-                        capabilities = capabilities, flags = {
-                            debounce_text_changes = 150
+                        capabilities = capabilities,
+                        flags = {
+                            debounce_text_changes = 150,
                         },
                         root_dir = function(fname)
                             return lspconfig.util.root_pattern(
@@ -149,8 +151,9 @@ return {
                 ["marksman"] = function()
                     lspconfig.marksman.setup {
                         on_attach = on_attach,
-                        capabilities = capabilities, flags = {
-                            debounce_text_changes = 150
+                        capabilities = capabilities,
+                        flags = {
+                            debounce_text_changes = 150,
                         },
                         root_dir = function(fname)
                             return lspconfig.util.root_pattern(
@@ -165,7 +168,9 @@ return {
                     lspconfig.lua_ls.setup {
                         on_attach = on_attach,
                         capabilities = capabilities,
-                        debounce_text_changes = 150,
+                        flags = {
+                            debounce_text_changes = 150,
+                        },
                         settings = {
                             Lua = {
                                 runtime = {
