@@ -2,7 +2,7 @@ local M = {
     'sainnhe/gruvbox-material',
     lazy = true,
     config = function()
-        vim.o.background = 'light'
+        vim.o.background = 'dark'
         vim.g.gruvbox_material_background = "hard"
         vim.g.gruvbox_material_foreground = "mix"
         vim.g.gruvbox_material_better_performance = true
