@@ -49,8 +49,8 @@ local M = {
                     showTodos = true,
                     completeFunctionCalls = true,
                     --analysisExcludedFolders = { "<path-to-flutter-sdk-packages>" },
-                    --renameFilesWithClasses = "prompt", -- "always"
-                    enableSnippets = false,
+                    renameFilesWithClasses = "prompt", -- "always"
+                    --enableSnippets = true,
                 }
             }
         })
