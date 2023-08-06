@@ -1,7 +1,7 @@
 local M = {
     --'kvrohit/mellow.nvim',
     dir = '~/Dev/lua/mellow.nvim',
-    lazy = false,
+    lazy = true,
     config = function()
         vim.g.mellow_italic_comments = true   --Make comments italic
         vim.g.mellow_italic_keywords = false  --Make keywords italic
