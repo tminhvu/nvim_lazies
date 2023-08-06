@@ -71,10 +71,10 @@ local M = {
                         maxwidth = 40,
                         mode = "symbol_text",
                         menu = ({
-                            -- nvim_lsp = "[L]",
-                            -- luasnip = "[S]",
-                            -- buffer = "[B]",
-                            -- path = "[P]"
+                            nvim_lsp = "[L]",
+                            luasnip = "[S]",
+                            buffer = "[B]",
+                            path = "[P]"
                         })
                     }),
                 },
@@ -84,8 +84,8 @@ local M = {
                     end,
                 },
                 window = {
-                    --completion = cmp.config.window.bordered(),
-                    --documentation = cmp.config.window.bordered(),
+                    completion = cmp.config.window.bordered(),
+                    documentation = cmp.config.window.bordered(),
                 },
                 mapping = cmp.mapping.preset.insert({
                     ['<C-d>'] = cmp.mapping.scroll_docs(-4),
