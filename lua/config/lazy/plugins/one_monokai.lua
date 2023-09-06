@@ -1,12 +1,12 @@
 local M = {
     'cpea2506/one_monokai.nvim',
-    lazy = true,
+    lazy = false,
     config = function()
         require('one_monokai').setup({
             transparent = false,
             colors = {
-                bg = '#18191a',
-                --bg = '#1F2329',
+                --bg = '#18191a',
+                bg = '#1F2329',
                 cline = "#282c34",
             },
             themes = function(colors)

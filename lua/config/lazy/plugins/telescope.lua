@@ -10,7 +10,7 @@ local M =  {
             defaults = {
                 selection_caret = '  > ',
                 file_ignore_patterns = { "^node_modules/", "^.git/", "^.cache/", "^bin/", "%.pdf", "%.mkv",
-                    "%.mp4", "%.zip" },
+                    "%.mp4", "%.zip", "^flutter_jank_metrics" },
                 previewer = true,
                 layout_strategy = "horizontal",
                 layout_config = {

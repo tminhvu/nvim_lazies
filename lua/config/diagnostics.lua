@@ -19,7 +19,7 @@ vim.diagnostic.config({
             --      vim.diagnostic.severity.HINT
         }
     },
-    update_in_insert = false,
+    update_in_insert = true,
     severity_sort = true,
     underline = {
         -- severity = {

@@ -1,6 +1,6 @@
 local M = {
     'LunarVim/onedarker.nvim',
-    lazy = false,
+    lazy = true,
     config =  function ()
         vim.cmd.colorscheme 'onedarker'
 
