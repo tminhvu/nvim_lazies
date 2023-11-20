@@ -1,42 +1,40 @@
 local M = {
     'lukas-reineke/indent-blankline.nvim',
     event = 'BufReadPost',
+    main = 'ibl',
+    opts = {},
     config = function()
-        -- vim.opt.list = true
-        -- vim.opt.listchars = "lead:"
-        require('indent_blankline').setup {
-            buftype_exclude = { "terminal", "nofile" },
-            filetype_exclude = {
-                "help",
-                "NvimTree",
+        require('ibl').setup {
+            viewport_buffer = {
+                min = 30,
+                max = 100,
             },
-
-            -- , '┆', '┊' ┆ ┇ ┊ ┋ ┆ ┇ ┊ ┋ '|', '¦', '┆', '┊' ⋅   
-            char = "┊",
-            show_trailing_blankline_indent = false,
-            use_treesitter = true,
-            show_current_context = true,
-            context_patterns = {
-                "class",
-                "return",
-                "function",
-                "method",
-                "^if",
-                "^while",
-                "jsx_element",
-                "^for",
-                "^object",
-                "^table",
-                "block",
-                "arguments",
-                "if_statement",
-                "else_clause",
-                "jsx_element",
-                "jsx_self_closing_element",
-                "try_statement",
-                "catch_clause",
-                "import_statement",
-                "operation_type",
+            indent = {
+                -- , '┆', '┊' ┆ ┇ ┊ ┋ ┆ ┇ ┊ ┋ '|', '¦', '┆', '┊' ⋅   
+                char = '┊',
+                --highlight = '',
+            },
+            exclude = {
+                filetypes = { "help", "NvimTree",},
+            },
+            scope = {
+                char = '│',
+                enabled = true,
+                show_start = false,
+                show_end = false,
+                highlight = '@comment',
+                include = {
+                    node_type = {
+                        dart = {
+                            "*"
+                        }
+                    }
+                    -- Make every node type valid. Note that this can lead to some weird
+                    -- behavior
+                    --{
+                    --    node_type = { ["*"] = { "*" } },
+                    --}
+                }
             },
         }
     end

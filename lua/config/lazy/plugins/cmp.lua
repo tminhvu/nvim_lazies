@@ -20,31 +20,31 @@ local M = {
 
             lspkind.init({
                 symbol_map = {
-                    Text = " ",
-                    Method = " ",
-                    Function = " ",
-                    Constructor = " ",
-                    Field = "ﰠ ",
-                    Variable = " ",
-                    Class = " ",
-                    Interface = "ﰮ ",
-                    Module = " ",
-                    Property = "ﰠ ",
+                    Text = "󰊄 ",
+                    Method = "󰊕 ",
+                    Function = "󰊕 ",
+                    Constructor = "󱍔 ",
+                    Field = " ",
+                    Variable = "󰫧 ",
+                    Class = " ",
+                    Interface = " ",
+                    Module = " ",
+                    Property = "󰒔 ",
                     Unit = " ",
-                    Value = " ",
-                    Enum = " ",
-                    Keyword = " ",
-                    Snippet = "﬌ ",
-                    Color = " ",
-                    File = " ",
-                    Reference = " ",
-                    Folder = " ",
-                    EnumMember = " ",
-                    Constant = " ",
-                    Struct = " ",
-                    Event = " ",
-                    Operator = " ",
-                    TypeParameter = " "
+                    Value = " ",
+                    Enum = "󰝖 ",
+                    Keyword = " ",
+                    Snippet = " ",
+                    Color = " ",
+                    File = " ",
+                    Reference = " ",
+                    Folder = " ",
+                    EnumMember = "󰝖 ",
+                    Constant = "󰏿 ",
+                    Struct = "󰝖 ",
+                    Event = "󰤔 ",
+                    Operator = "󰞁 ",
+                    TypeParameter = " "
                 },
             })
 
@@ -66,10 +66,14 @@ local M = {
                         cmp.config.compare.order,
                     },
                 },
+                matching = {
+                    disallow_fullfuzzy_matching = false,
+                },
                 formatting = {
                     format = lspkind.cmp_format({
                         maxwidth = 40,
                         mode = "symbol_text",
+                        ellipsis_char = '...',
                         menu = ({
                             nvim_lsp = "[L]",
                             luasnip = "[S]",
@@ -83,10 +87,10 @@ local M = {
                         luasnip.lsp_expand(args.body)
                     end,
                 },
-                window = {
-                    completion = cmp.config.window.bordered(),
-                    documentation = cmp.config.window.bordered(),
-                },
+                --window = {
+                --    completion = cmp.config.window.bordered(),
+                --    documentation = cmp.config.window.bordered(),
+                --},
                 mapping = cmp.mapping.preset.insert({
                     ['<C-d>'] = cmp.mapping.scroll_docs(-4),
                     ['<C-f>'] = cmp.mapping.scroll_docs(4),

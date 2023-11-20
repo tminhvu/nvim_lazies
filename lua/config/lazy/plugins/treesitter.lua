@@ -21,9 +21,10 @@ local M = {
                 enable = true,
             },
             autotag = {
-                enable = true
+                enable = true,
             },
             textobjects = {
+                enable = false,
                 select = {
                     enable = false,
                 },

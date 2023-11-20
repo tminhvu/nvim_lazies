@@ -1,5 +1,7 @@
 -- jump between buffer
 vim.api.nvim_set_keymap('n', '<C-b>', '<C-^>', {})
+vim.api.nvim_set_keymap('n', '<C-M>', ':bprevious<CR>', {})
+vim.api.nvim_set_keymap('n', '<C-m>', ':bnext<CR>', {})
 
 --Remap space as leader key
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
