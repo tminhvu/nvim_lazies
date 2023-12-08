@@ -63,6 +63,8 @@ local M = {
                 vim.keymap.set('n', '<2-RightMouse>', api.tree.change_root_to_node, opts('CD'))
                 -- END_DEFAULT_ON_ATTACH
             end,
+            disable_netrw = true,
+            reload_on_bufenter = true,
             sync_root_with_cwd = true,
             view = {
                 width = 35,
@@ -73,6 +75,7 @@ local M = {
                 side = "left",
             },
             diagnostics = {
+                show_on_open_dirs = false,
                 enable = true,
                 show_on_dirs = true,
                 icons = {
@@ -99,7 +102,7 @@ local M = {
                 },
             },
             renderer = {
-                root_folder_label = false,
+                root_folder_label = true,
                 indent_markers = {
                     enable = true
                 },
@@ -122,7 +125,7 @@ local M = {
                 },
                 highlight_git = false,
                 highlight_opened_files = "name",
-                highlight_modified = "icon"
+                highlight_modified = "icon",
             },
             git = {
                 enable = true,
@@ -130,7 +133,17 @@ local M = {
                 show_on_dirs = true,
                 timeout = 400,
             },
+            modified = {
+                enable = true,
+                show_on_dirs = true,
+                show_on_open_dirs = false,
+            },
+            log = {
+                enable = false
+            }
         }
+
+        vim.api.nvim_set_hl(0, 'NvimTreeIndentMarker', { link = "VertSplit" })
     end
 }
 
