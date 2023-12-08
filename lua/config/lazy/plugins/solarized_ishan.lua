@@ -1,6 +1,6 @@
 local M = {
     'ishan9299/nvim-solarized-lua',
-    lazy = false,
+    lazy = true,
     config = function()
         vim.g.solarized_italics = 1
         vim.g.solarized_visibility = 'low'

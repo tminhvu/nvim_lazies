@@ -15,7 +15,7 @@ local M = {
                 --highlight = '',
             },
             exclude = {
-                filetypes = { "help", "NvimTree",},
+                filetypes = { "help", "NvimTree", },
             },
             scope = {
                 char = '│',
@@ -37,6 +37,11 @@ local M = {
                 }
             },
         }
+
+        vim.api.nvim_set_hl(0, 'IblIndent', { fg = "#141414" })
+        vim.api.nvim_set_hl(0, '@ibl.indent.char.1', { fg = "#141414" })
+        vim.api.nvim_set_hl(0, 'IblScope', { fg = '#414141' })
+        vim.api.nvim_set_hl(0, '@ibl.scope.char.1', { fg = '#414141' })
     end
 }
 
