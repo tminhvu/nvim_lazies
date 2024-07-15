@@ -47,6 +47,14 @@ return {
                 vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>lr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
                 vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>f', '<cmd>lua vim.lsp.buf.format { async = true }<CR>',
                     opts)
+                vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
+                    vim.lsp.handlers.hover, {
+                        -- Use a sharp border with `FloatBorder` highlights
+                        border = "rounded",
+                        -- add the title in hover float window
+                        title = "Documentation"
+                    }
+                )
             end
 
             --local capabilities = vim.lsp.protocol.make_client_capabilities()

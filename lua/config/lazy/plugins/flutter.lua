@@ -8,7 +8,7 @@ local M = {
     config = function()
         local capabilities = require('cmp_nvim_lsp').default_capabilities()
         require('flutter-tools').setup({
-            flutter_path = "/home/mx-vu/Src/flutter/bin/flutter",
+            flutter_path = "/home/mx-vu/Programs/flutter/bin/flutter",
             outline = {
                 open_cmd = "35vnew", -- command to use to open the outline buffer
                 auto_open = false    -- if true this will open the outline automatically when it is first populated
@@ -52,7 +52,7 @@ local M = {
 
                 capabilities = capabilities,
                 settings = {
-                    lineLength = 120,
+                    lineLength = 130,
                     showTodos = true,
                     completeFunctionCalls = true,
                     --analysisExcludedFolders = { "<path-to-flutter-sdk-packages>" },

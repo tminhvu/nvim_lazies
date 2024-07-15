@@ -116,3 +116,5 @@ vim.api.nvim_create_autocmd('FileType', {
 vim.lsp.set_log_level('off')
 
 vim.o.mousemodel = 'extend'
+
+vim.cmd[[set list listchars=tab:»·,trail:·]]

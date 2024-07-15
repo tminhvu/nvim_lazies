@@ -55,10 +55,10 @@ local M = {
                 --    },
                 sorting = {
                     comparators = {
-                        cmp.config.compare.exact,
                         cmp.config.compare.score,
-                        cmp.config.compare.kind,
                         cmp.config.compare.locality,
+                        cmp.config.compare.exact,
+                        cmp.config.compare.kind,
                         cmp.config.compare.offset,
                         cmp.config.compare.recently_used,
                         cmp.config.compare.sort_text,
@@ -90,10 +90,10 @@ local M = {
                         luasnip.lsp_expand(args.body)
                     end,
                 },
-                --window = {
-                --    completion = cmp.config.window.bordered(),
-                --    documentation = cmp.config.window.bordered(),
-                --},
+                window = {
+                    completion = cmp.config.window.bordered(),
+                    documentation = cmp.config.window.bordered(),
+                },
                 mapping = cmp.mapping.preset.insert({
                     ['<C-d>'] = cmp.mapping.scroll_docs(-4),
                     ['<C-f>'] = cmp.mapping.scroll_docs(4),

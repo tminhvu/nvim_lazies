@@ -13,7 +13,7 @@ local M = {
                         text_align = "left"
                     }
                 },
-                diagnostics = "nvim_lsp",
+                color_icons = true,
             },
         }
     end

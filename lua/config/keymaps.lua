@@ -1,7 +1,6 @@
 -- jump between buffer
 vim.api.nvim_set_keymap('n', '<C-b>', '<C-^>', {})
-vim.api.nvim_set_keymap('n', '<C-M>', ':bprevious<CR>', {})
-vim.api.nvim_set_keymap('n', '<C-m>', ':bnext<CR>', {})
+vim.api.nvim_set_keymap('n', '<Backspace>', ':bprevious<CR>', {})
 
 --Remap space as leader key
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
@@ -38,7 +37,7 @@ vim.api.nvim_set_keymap('n', '<F8>', ':silent! !thunar %:p:h<CR>', {})
 vim.api.nvim_set_keymap('n', '<F10>', ':silent! !xfce4-terminal --tab<cr><cr>', {})
 
 -- to open file in browser
-vim.api.nvim_create_user_command('BrowserOpen', 'silent! !brave-browser %:p<CR>',{})
+vim.api.nvim_create_user_command('BrowserOpen', 'silent! !brave-browser %:p<CR>', {})
 
 --move in insertmode
 vim.api.nvim_set_keymap('i', '<m-h>', '<Left>', {})
@@ -47,10 +46,10 @@ vim.api.nvim_set_keymap('i', '<m-j>', '<Down>', {})
 vim.api.nvim_set_keymap('i', '<m-k>', '<Up>', {})
 
 --move in tab
-vim.api.nvim_set_keymap('n', '<C-Left>', ':tabprevious<CR>', {})
-vim.api.nvim_set_keymap('n', '<C-Right>', ':tabnext<CR>', {})
-vim.api.nvim_set_keymap('n', '<C-h>', ':tabprevious<CR>', {})
-vim.api.nvim_set_keymap('n', '<C-l>', ':tabnext<CR>', {})
+vim.api.nvim_set_keymap('n', '<C-Left>', ':bprevious<CR>', {})
+vim.api.nvim_set_keymap('n', '<C-Right>', ':bnext<CR>', {})
+vim.api.nvim_set_keymap('n', '<C-h>', ':bprevious<CR>', {})
+vim.api.nvim_set_keymap('n', '<C-l>', ':bnext<CR>', {})
 
 --move in plit
 vim.api.nvim_set_keymap('n', '<M-Down>', ' <C-W><C-J>', {})
@@ -73,6 +72,7 @@ vim.api.nvim_create_user_command('Wq', 'wq', {})
 vim.api.nvim_create_user_command('Wqa', 'wqa', {})
 vim.api.nvim_create_user_command('Q', 'q', {})
 vim.api.nvim_create_user_command('Qa', 'qa', {})
+--vim.api.nvim_create_user_command('q1', 'q!', {})
 
 -- OTHER
 vim.cmd [[
@@ -112,7 +112,8 @@ vim.cmd [[
 ]]
 
 -- Diagnostic keymaps
-vim.api.nvim_set_keymap('n', '<leader>e', '<cmd>lua vim.diagnostic.open_float()<CR>', {})
+vim.api.nvim_set_keymap('n', '<leader>e',
+    '<cmd>lua vim.diagnostic.open_float(nil, {border=\'rounded\', focus=false})<CR>', {})
 vim.api.nvim_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', {})
 vim.api.nvim_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', {})
 vim.api.nvim_set_keymap('n', '<leader>a', '<cmd>lua vim.diagnostic.setloclist()<CR>', {})

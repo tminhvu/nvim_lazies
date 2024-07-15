@@ -89,8 +89,8 @@ local M = {
                     error = "E",
                 },
                 severity = {
-                    min = vim.diagnostic.severity.WARN,
-                    max = vim.diagnostic.severity.ERROR
+                    --min = vim.diagnostic.severity.WARN,
+                    --max = vim.diagnostic.severity.ERROR
                 },
             },
             actions = {

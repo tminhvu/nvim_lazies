@@ -1,5 +1,6 @@
 local M = {
     'nvim-telescope/telescope.nvim',
+    --commit = 'a4432dfb9b0b960c4cbc8765a42dc4fe2e029e8f',
     cmd = { "Telescope" },
     dependencies = {
         { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
@@ -8,14 +9,18 @@ local M = {
         local telescope = require('telescope')
         telescope.setup {
             defaults = {
-                selection_caret = '  > ',
+                border = true,
+                selection_caret = ' ',
                 file_ignore_patterns = { "^node_modules/", "^.git/", "^.cache/", "^bin/", "%.pdf", "%.mkv",
                     "%.mp4", "%.zip", "^flutter_jank_metrics", "^test/" },
                 previewer = true,
                 path_display = {
-                    shorten = 1
+                    filename_first = true,
                 },
                 dynamic_preview_title = true,
+                preview = {
+                    treesitter = false,
+                },
                 layout_strategy = "horizontal",
                 layout_config = {
                     horizontal = {
@@ -27,7 +32,7 @@ local M = {
                     },
                     vertical = {
                         height = 0.9,
-                        preview_cutoff = 40,
+                        preview_cutoff = 10,
                         prompt_position = "bottom",
                         width = 0.8
                     }
@@ -36,7 +41,13 @@ local M = {
                 sorting_strategy = "ascending",
                 mappings = {
                     n = {
-                        ['dd'] = require('telescope.actions').delete_buffer
+                        ['dd'] = require('telescope.actions').delete_buffer,
+                        ["<C-p>"] = require("telescope.actions.layout").toggle_preview,
+                        ["<A-l>"] = require("telescope.actions.layout").cycle_layout_next,
+                        ["<C-l>"] = require("telescope.actions").preview_scrolling_right,
+                        ["<C-h>"] = require("telescope.actions").preview_scrolling_left,
+                        ["<C-k>"] = require("telescope.actions").preview_scrolling_up,
+                        ["<C-j>"] = require("telescope.actions").preview_scrolling_down,
                     },
                 }
             },
