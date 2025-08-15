@@ -1,0 +1,46 @@
+{
+    "name": "nvim-snippets",
+    "author": "friendly-snippets",
+    "engines": {
+        "vscode": "^1.11.0"
+    },
+    "contributes": {
+        "snippets": [
+            {
+                "language": "dart",
+                "path": "./dart.json"
+            },
+            {
+                "language": "dart",
+                "path": "./flutter.json"
+            },
+            {
+                "language": [
+                    "javascript",
+                    "javascriptreact"
+                ],
+                "path": "./javascript.json"
+            },
+            {
+                "language": "javascriptreact",
+                "path": "./react.json"
+            },
+            {
+                "language": "javascriptreact",
+                "path": "./react-native.json"
+            },
+            {
+                "language": "markdown",
+                "path": "./markdown.json"
+            },
+            {
+                "language": "html",
+                "path": "./html.json"
+            },
+            {
+                "language": "sh",
+                "path": "./shell.json"
+            }
+        ]
+    }
+}
