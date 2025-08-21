@@ -67,15 +67,15 @@ return {
             --scroll_documentation_down = '<C-f>',
         },
         sources = {
-            --    default = { 'lsp', 'snippets', 'path', 'buffer' },
-            default = function(ctx)
-                local success, node = pcall(vim.treesitter.get_node)
-                if success and node and vim.tbl_contains({ 'comment', 'line_comment', 'block_comment' }, node:type()) then
-                    return { 'buffer' }
-                else
-                    return { 'lsp', 'path', 'snippets', 'buffer' }
-                end
-            end
+              default = { 'lsp', 'snippets', 'path', 'buffer' },
+            --default = function(ctx)
+            --    local success, node = pcall(vim.treesitter.get_node)
+            --    if success and node and vim.tbl_contains({ 'comment', 'line_comment', 'block_comment' }, node:type()) then
+            --        return { 'buffer' }
+            --    else
+            --        return { 'lsp', 'path', 'snippets', 'buffer' }
+            --    end
+            --end
         },
         signature = { enabled = true },
         cmdline = {

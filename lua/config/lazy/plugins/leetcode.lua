@@ -12,6 +12,10 @@ return {
         picker = {
             provider = 'fzf-lua',
         },
+        logging = false,
+        description = {
+            width = "45%"
+        },
         injector = {
             ['c'] = {
                 imports = function()

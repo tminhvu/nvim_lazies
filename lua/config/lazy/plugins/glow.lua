@@ -1,0 +1,4 @@
+return {
+    "cooperuser/glowbeam.nvim",
+
+}

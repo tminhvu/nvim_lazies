@@ -10,9 +10,9 @@ vim.o.hidden = true
 --vim.o.title = true
 
 -- somrthing to do with tab
-vim.o.shiftwidth = 4
+vim.o.shiftwidth = 2
 vim.o.expandtab = true
-vim.o.tabstop = 4
+vim.o.tabstop = 2
 
 -- relative number
 --vim.o.relativenumber = true
