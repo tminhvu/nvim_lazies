@@ -2,6 +2,22 @@ vim.cmd [[
 cabbrev <expr> w getcmdtype()==':' && getcmdline() == "'<,'>w" ? '<c-u>w' : 'w'
 ]]
 
+vim.keymap.set('x', 'p', '"_dP', { noremap = true, silent = true })
+
+vim.api.nvim_create_user_command("Web", function()
+  local pos1 = vim.fn.getpos("'<") -- Start of visual selection
+  local pos2 = vim.fn.getpos("'>") -- End of visual selection
+  print(vim.fn.visualmode())
+  local lines = vim.fn.getregion(pos1, pos2, { type = vim.fn.visualmode() })
+  local selected_text = table.concat(lines, "\n")
+  local url = selected_text:match("(https?://[^%s]*)") or selected_text:match("(www%.%S+)")
+  if url then
+    vim.fn.jobstart({"brave-browser", url}, {detach = true})
+  else
+    print("No valid URL found in selection")
+  end
+end, {range = true})
+
 -- Scroll down 5 lines
 vim.keymap.set('n', '<C-d>', '5j', { noremap = true, silent = true })
 -- Scroll up 5 lines
@@ -10,7 +26,7 @@ vim.keymap.set('n', '<C-u>', '5k', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', 'q:', ':q', {})
 vim.api.nvim_set_keymap('n', 'w:', ':w', {})
 --vim.api.nvim_set_keymap('n', ';w', ':w', {})
---vim.api.nvim_set_keymap('n', ':q1', ':q!', {})
+vim.api.nvim_set_keymap('n', 'q1', 'q!', {})
 --vim.api.nvim_set_keymap('n', ';', ':', {})
 
 -- jump between buffer
