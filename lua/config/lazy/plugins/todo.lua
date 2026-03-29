@@ -1,7 +1,7 @@
 return {
     "folke/todo-comments.nvim",
     dependencies = { "nvim-lua/plenary.nvim" },
-    event = "BufReadPost",
+    --event = "BufReadPost",
     opts = {
         signs = false,      -- show icons in the signs column
         sign_priority = 8, -- sign priority
@@ -62,7 +62,7 @@ return {
             },
             -- regex that will be used to match keywords.
             -- don't replace the (KEYWORDS) placeholder
-            pattern = [[\b(KEYWORDS):]], -- ripgrep regex
+            pattern = [[\b(KEYWORDS)]], -- ripgrep regex
             -- pattern = [[\b(KEYWORDS)\b]], -- match without the extra colon. You'll likely get false positives
         },
     }

@@ -1,195 +1,118 @@
 return {
-    "mason-org/mason-lspconfig.nvim",
-    --lazy = false,
-    event = "BufReadPost",
-    dependencies = {
-        { "mason-org/mason.nvim", opts = {} },
-        "neovim/nvim-lspconfig",
-        'saghen/blink.cmp',
-    },
-    config = function()
-        require('mason-lspconfig').setup({
-            ensure_installed = { "clangd", "bashls", "cssls", "ts_ls", "eslint", "html",
-                "tailwindcss", "jsonls", "marksman", "lua_ls" },
-            automatic_enable = false,
-        })
+  "mason-org/mason-lspconfig.nvim",
+  event = "UIEnter",
+  --lazy = true,
+  dependencies = {
+    { "mason-org/mason.nvim", opts = {} },
+    "neovim/nvim-lspconfig",
+    "hrsh7th/nvim-cmp",
+  },
 
-        local on_attach = function(client, bufnr)
-            local opts = { noremap = true, silent = true }
-            --client.server_capabilities.semanticTokensProvider = nil
-            -- See `:help vim.lsp.*` for documentation on any of the below functions
-            vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
-            vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-            vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-            vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>',
-                opts)
-            vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>wr',
-                '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
-            vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>wl',
-                '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
-            vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gD', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
-            vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-            --vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-            vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>lr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-            vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>f', '<cmd>lua vim.lsp.buf.format { async = true }<CR>',
-                opts)
-            --vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
-            --    vim.lsp.handlers.hover, {
-            --        -- Use a sharp border with `FloatBorder` highlights
-            --        --border = "single",
-            --        -- add the title in hover float window
-            --        --border = 'none',
-            --        title = "Document"
-            --    }
-            --)
-            --vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
-            --    vim.lsp.handlers.signature_help, {
-            --        -- Use a sharp border with `FloatBorder` highlights
-            --        --border = "single",
-            --        title = "Signature"
-            --    }
-            --)
-        end
+  config = function()
+    ----------------------------------------------------------------------
+    -- 1. Mason – install the servers (but don’t let it auto-enable them)
+    ----------------------------------------------------------------------
+    require("mason-lspconfig").setup({
+      ensure_installed = {
+        "clangd", "bashls", "cssls", "ts_ls", "eslint", "html",
+        "tailwindcss", "jsonls", "marksman", "lua_ls",
+      },
+      automatic_enable = false, -- we enable manually later
+    })
 
-        local capabilities = require('blink.cmp').get_lsp_capabilities()
-        local lspconfig = require('lspconfig')
+    ----------------------------------------------------------------------
+    -- 2. Shared on_attach + capabilities (blink.cmp)
+    ----------------------------------------------------------------------
+    local on_attach = function(client, bufnr)
+      local opts = { noremap = true, silent = true, buffer = bufnr }
 
-        lspconfig['clangd'].setup {
-            on_attach = on_attach,
-            capabilities = capabilities,
-            flags = {
-                debounce_text_changes = 150,
-            },
-            root_dir = function(fname)
-                return lspconfig.util.root_pattern(
-                    'src',
-                    '.clangd',
-                    'README.md',
-                    '.clang-tidy',
-                    --'.clang-format',
-                    'compile_commands.json',
-                    'compile_flags.txt',
-                    'configure.ac')(fname) or vim.fn.getcwd()
-            end
-        }
+      vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+      vim.keymap.set("n", "K", function() vim.lsp.buf.hover({ border = 'single' }) end, opts)
+      vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
+      vim.keymap.set("n", "gD", vim.lsp.buf.type_definition, opts)
 
-        lspconfig['tailwindcss'].setup {
-            autostart = false,
-            on_attach = on_attach,
-            capabilities = capabilities,
-            flags = {
-                debounce_text_changes = 150
-            }
-        }
+      vim.keymap.set("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, opts)
+      vim.keymap.set("n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, opts)
+      vim.keymap.set("n", "<leader>wl",
+        function() print(vim.inspect(vim.lsp.buf.list_workspace_folder())) end, opts)
 
-        lspconfig['eslint'].setup({
-            autostart = false,
-            on_attach = on_attach,
-            capabilities = capabilities,
-            flags = {
-                debounce_text_changes = 150
-            }
-        })
-
-        lspconfig['marksman'].setup {
-            on_attach = on_attach,
-            capabilities = capabilities,
-            flags = {
-                debounce_text_changes = 150,
-            },
-            root_dir = function(fname)
-                return lspconfig.util.root_pattern(
-                    'index.md',
-                    'README.md')(fname) or vim.fn.getcwd()
-            end,
-            single_file_support = true
-        }
-
-        lspconfig['lua_ls'].setup {
-            on_attach = on_attach,
-            capabilities = capabilities,
-            flags = {
-                debounce_text_changes = 150,
-            },
-            settings = {
-                Lua = {
-                    runtime = {
-                        -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
-                        version = 'LuaJIT',
-                    },
-                    diagnostics = {
-                        -- Get the language server to recognize the `vim` global
-                        globals = { 'vim' },
-                    },
-                    workspace = {
-                        -- Make the server aware of Neovim runtime files
-                        --library = lib()
-                        library = vim.api.nvim_get_runtime_file("", true),
-                    },
-                    -- Do not send telemetry data containing a randomized but unique identifier
-                    telemetry = {
-                        enable = false,
-                    },
-                },
-            },
-            root_dir = function(fname)
-                return lspconfig.util.root_pattern(
-                    'README.md',
-                    '.luarc.json',
-                    '.gitignore',
-                    '.git',
-                    'main.lua',
-                    'src')(fname) or vim.fn.getcwd()
-            end,
-        }
-
-        local lsps = { "bashls", "cssls", "ts_ls", "html", "astro", "jsonls" }
-        for i = 1, #lsps, 1 do
-            lspconfig[lsps[i]].setup {
-                on_attach = on_attach,
-                capabilities = capabilities,
-                flags = {
-                    debounce_text_changes = 150
-                },
-            }
-        end
-
-
-        --["jdtls"] = function()
-        --    lspconfig.jdtls.setup {
-        --        on_attach = on_attach,
-        --        capabilities = capabilities,
-        --        root_dir = function(fname)
-        --            return lspconfig.util.root_pattern(
-        --                'src',
-        --                'build.xml',
-        --                'pom.xml',
-        --                'settings.gradle',
-        --                'settings.gradle.kts',
-        --                'README.md',
-        --                '.git')(fname) or vim.fn.getcwd()
-        --        end,
-        --        filetypes = { "java" },
-        --        single_file_support = true,
-        --        settings = {
-        --            java = {
-        --                completion = {
-        --                    overwrite = true
-        --                }
-        --            }
-        --        },
-        --    }
-        --end
-
-        --["astro"] = function()
-        --    lspconfig.astro.setup({
-        --        autostart = false,
-        --        on_attach = on_attach,
-        --        capabilities = capabilities,
-        --        flags = {
-        --            debounce_text_changes = 150
-        --        }
-        --    })
-        --end,
+      vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
+      vim.keymap.set("n", "<leader>lr", vim.lsp.buf.references, opts)
+      vim.keymap.set("n", "<space>f",
+        function() vim.lsp.buf.format { async = true } end, opts)
     end
+
+    local capabilities = require('cmp_nvim_lsp').default_capabilities()
+
+    ----------------------------------------------------------------------
+    -- 3. Global defaults (applied to *every* server)
+    ----------------------------------------------------------------------
+    vim.lsp.config("*", {
+      autostart = false,
+      on_attach = on_attach,
+      capabilities = capabilities,
+      single_file_support = true,
+      flags = { debounce_text_changes = 150 },
+    })
+
+    ----------------------------------------------------------------------
+    -- 4. Server-specific overrides (only the fields that differ)
+    ----------------------------------------------------------------------
+    --local util = require("lspconfig.util")
+
+    -- clangd – custom root detection
+    --vim.lsp.config("clangd", {
+      --root_dir = function(fname)
+      --  return util.root_pattern(
+      --    "src", ".clangd", "README.md", ".clang-tidy",
+      --    "compile_commands.json", "compile_flags.txt", "configure.ac"
+      --  )(fname) or vim.fn.getcwd()
+      --end,
+    --})
+
+    --vim.lsp.config("bashls", {
+    --  filetypes = { "sh", "bash", "zsh" }, -- THIS WAS MISSING
+    --  single_file_support = true,
+    --})
+
+    -- tailwindcss & eslint – autostart = false
+    --vim.lsp.config("tailwindcss", { autostart = false })
+    --vim.lsp.config("eslint", { autostart = false })
+
+    -- marksman – custom root + single file support
+    --vim.lsp.config("marksman", {
+    --  --root_dir = function(fname)
+    --  --  return util.root_pattern("index.md", "README.md")(fname) or vim.fn.getcwd()
+    --  --end,
+    --})
+
+    -- lua_ls – full settings block
+    vim.lsp.config("lua_ls", {
+      settings = {
+        Lua = {
+          runtime = { version = "LuaJIT" },
+          diagnostics = { globals = { "vim" } },
+          --workspace = { library = vim.api.nvim_get_runtime_file("", true) },
+          telemetry = { enable = false },
+        },
+      },
+      --root_dir = vim.fn.fnamemodify(debug.getinfo(1, 'S').source:sub(2), ':p:h'),
+      --root_dir = function(fname)
+      --  return util.root_pattern(
+      --    "README.md", ".luarc.json", ".gitignore", ".git", "main.lua", "src"
+      --  )(fname) or vim.fn.getcwd()
+      --end,
+    })
+
+    ----------------------------------------------------------------------
+    -- 5. Enable *all* servers that Mason installed (plus any extra ones)
+    ----------------------------------------------------------------------
+   local servers_to_enable = {
+     "clangd", "bashls", "cssls", "ts_ls", "eslint", "html",
+     "tailwindcss", "jsonls", "marksman", "lua_ls",
+     -- add any extra servers you want to start manually here
+   }
+   
+   vim.lsp.enable(servers_to_enable)
+  end,
 }

@@ -1,6 +1,6 @@
 local M = {
     'lewis6991/gitsigns.nvim',
-    event = 'BufReadPost',
+    event = 'UIEnter',
     cond = function()
         return vim.loop.fs_stat(".git")
     end,

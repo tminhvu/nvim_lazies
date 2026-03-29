@@ -4,19 +4,19 @@ cabbrev <expr> w getcmdtype()==':' && getcmdline() == "'<,'>w" ? '<c-u>w' : 'w'
 
 vim.keymap.set('x', 'p', '"_dP', { noremap = true, silent = true })
 
-vim.api.nvim_create_user_command("Web", function()
-  local pos1 = vim.fn.getpos("'<") -- Start of visual selection
-  local pos2 = vim.fn.getpos("'>") -- End of visual selection
-  print(vim.fn.visualmode())
-  local lines = vim.fn.getregion(pos1, pos2, { type = vim.fn.visualmode() })
-  local selected_text = table.concat(lines, "\n")
-  local url = selected_text:match("(https?://[^%s]*)") or selected_text:match("(www%.%S+)")
-  if url then
-    vim.fn.jobstart({"brave-browser", url}, {detach = true})
-  else
-    print("No valid URL found in selection")
-  end
-end, {range = true})
+--vim.api.nvim_create_user_command("Web", function()
+--  local pos1 = vim.fn.getpos("'<") -- Start of visual selection
+--  local pos2 = vim.fn.getpos("'>") -- End of visual selection
+--  print(vim.fn.visualmode())
+--  local lines = vim.fn.getregion(pos1, pos2, { type = vim.fn.visualmode() })
+--  local selected_text = table.concat(lines, "\n")
+--  local url = selected_text:match("(https?://[^%s]*)") or selected_text:match("(www%.%S+)")
+--  if url then
+--    vim.fn.jobstart({"brave-browser", url}, {detach = true})
+--  else
+--    print("No valid URL found in selection")
+--  end
+--end, {range = true})
 
 -- Scroll down 5 lines
 vim.keymap.set('n', '<C-d>', '5j', { noremap = true, silent = true })
@@ -24,14 +24,15 @@ vim.keymap.set('n', '<C-d>', '5j', { noremap = true, silent = true })
 vim.keymap.set('n', '<C-u>', '5k', { noremap = true, silent = true })
 
 vim.api.nvim_set_keymap('n', 'q:', ':q', {})
-vim.api.nvim_set_keymap('n', 'w:', ':w', {})
+--vim.api.nvim_set_keymap('n', 'w:', ':w', {})
 --vim.api.nvim_set_keymap('n', ';w', ':w', {})
 vim.api.nvim_set_keymap('n', 'q1', 'q!', {})
 --vim.api.nvim_set_keymap('n', ';', ':', {})
 
 -- jump between buffer
 vim.api.nvim_set_keymap('n', '<C-b>', '<C-^>', {})
-vim.api.nvim_set_keymap('n', '<Backspace>', ':bprevious<CR>', {})
+vim.api.nvim_set_keymap('n', '<C-h>', ':bprevious<CR>', {})
+vim.api.nvim_set_keymap('n', '<C-l>', ':bnext<CR>', {})
 
 vim.api.nvim_set_keymap('n', '<v-J>', 'Vj', {})
 --Remap space as leader key
@@ -84,17 +85,17 @@ vim.api.nvim_set_keymap('n', '<F8>', ':silent! !thunar %:p:h<CR>', {})
 vim.api.nvim_set_keymap('n', '<F10>', ':silent! !xfce4-terminal --tab<cr><cr>', {})
 
 -- to open file in browser
-vim.api.nvim_create_user_command('BrowserOpen', 'silent! !brave-browser %:p<CR>', {})
+--vim.api.nvim_create_user_command('BrowserOpen', 'silent! !brave-browser %:p<CR>', {})
 
 --move in insertmode
-vim.api.nvim_set_keymap('i', '<m-h>', '<Left>', {})
-vim.api.nvim_set_keymap('i', '<m-l>', '<Right>', {})
-vim.api.nvim_set_keymap('i', '<m-j>', '<Down>', {})
-vim.api.nvim_set_keymap('i', '<m-k>', '<Up>', {})
+--vim.api.nvim_set_keymap('i', '<m-h>', '<Left>', {})
+--vim.api.nvim_set_keymap('i', '<m-l>', '<Right>', {})
+--vim.api.nvim_set_keymap('i', '<m-j>', '<Down>', {})
+--vim.api.nvim_set_keymap('i', '<m-k>', '<Up>', {})
 
 --move in tab
-vim.api.nvim_set_keymap('n', '<C-Left>', ':bprevious<CR>', {})
-vim.api.nvim_set_keymap('n', '<C-Right>', ':bnext<CR>', {})
+--vim.api.nvim_set_keymap('n', '<C-Left>', ':bprevious<CR>', {})
+--vim.api.nvim_set_keymap('n', '<C-Right>', ':bnext<CR>', {})
 --vim.api.nvim_set_keymap('n', '<C-h>', ':bprevious<CR>', {})
 --vim.api.nvim_set_keymap('n', '<C-l>', ':bnext<CR>', {})
 
@@ -158,41 +159,5 @@ vim.cmd [[
     endfunction
 ]]
 
--- Diagnostic keymaps
-vim.api.nvim_set_keymap('n', '<leader>e',
-    '<cmd>lua vim.diagnostic.open_float(nil, {focus=false})<CR>', {})
---'<cmd>lua vim.diagnostic.open_float(nil, {focus=false, border = "single"})<CR>', {})
-vim.api.nvim_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', {})
-vim.api.nvim_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', {})
---vim.api.nvim_set_keymap('n', '<leader>a', '<cmd>lua vim.diagnostic.setloclist()<CR>', {})
-
 -- To really delete smth
 vim.api.nvim_set_keymap('n', '\'', '"0', {})
-
--- I always like to prefix my commands with JR so I can easily find them
-vim.api.nvim_create_user_command("Free", function()
-    -- snag the file type from the buffer
-    local file_type = vim.bo.filetype
-
-    -- get the text from the visual selection as a table
-    local text = vim.fn.getline(vim.fn.getpos("'<")[2], vim.fn.getpos("'>")[2])
-
-    -- join it together into one string
-    local full_text = table.concat(text, "\n")
-
-    -- write the file to /tmp/freeze...probably could find a better place to put this so it's
-    -- cross platform, but it works for me ¯\_(ツ)_/¯
-    local file = io.open("/tmp/freeze", "w")
-    if file == nil then
-        print("could not open file")
-        return
-    end
-    file:write(full_text)
-    file:close()
-
-    -- call the freeze command with the file type we grabbed earlier
-    vim.fn.system("freeze -c ~/.config/nvim/freeze-conf.json /tmp/freeze -l" .. file_type .. " -o /tmp/freeze.jpg && xclip -sel clip -t image/jpg -i /tmp/freeze.jpg && cp /tmp/freeze.jpg ~/freeze-$(date +%Y_%m_%d_%T).jpg && notify-send 'Generated & Saved & Copied' '~/freeze-date.jpg'")
-end, {
-    -- make sure the command is only available in visual mode
-    range = true,
-})
