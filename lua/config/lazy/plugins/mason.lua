@@ -1,11 +1,13 @@
 return {
   "mason-org/mason-lspconfig.nvim",
-  event = "UIEnter",
+  -- only when a file is opened; `nvim` with no file skips LSP setup entirely
+  event = { "BufReadPre", "BufNewFile" },
   --lazy = true,
   dependencies = {
     { "mason-org/mason.nvim", opts = {} },
     "neovim/nvim-lspconfig",
-    "hrsh7th/nvim-cmp",
+    -- only for capabilities; nvim-cmp itself still loads on InsertEnter
+    "hrsh7th/cmp-nvim-lsp",
   },
 
   config = function()
