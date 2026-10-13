@@ -67,8 +67,11 @@ $lock = "$PSScriptRoot\lazy-lock.json"
 $pinned = [IO.File]::ReadAllBytes($lock)
 nvim --headless "+lua dofile([[$PSScriptRoot\scripts\setup.lua]])"
 $code = $LASTEXITCODE
-if ([Convert]::ToBase64String([IO.File]::ReadAllBytes($lock)) -ne [Convert]::ToBase64String($pinned)) {
+$after = [IO.File]::ReadAllBytes($lock)
+if ([Convert]::ToBase64String($after) -ne [Convert]::ToBase64String($pinned)) {
   [IO.File]::WriteAllBytes($lock, $pinned)
-  Write-Host "restored lazy-lock.json (lazy.nvim had changed it)"
+  # a CRLF checkout differs from lazy's LF output in line endings alone; only mention real changes
+  $text = { param($b) [Text.Encoding]::UTF8.GetString($b) -replace "`r`n", "`n" }
+  if ((& $text $after) -ne (& $text $pinned)) { Write-Host "restored lazy-lock.json (lazy.nvim had changed it)" }
 }
 if ($code -ne 0) { throw "Neovim setup reported problems (see above)" }

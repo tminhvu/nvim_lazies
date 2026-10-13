@@ -1,1 +1,3 @@
 *.sh text eol=lf
+# lazy.nvim writes LF; keep checkouts the same so it never flips the line endings
+lazy-lock.json text eol=lf
