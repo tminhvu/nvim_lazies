@@ -35,7 +35,9 @@ local M = {
         open_cmd = "15split",  -- command to use to open the log buffer
         focus_on_open = true,  -- focus on the newly opened log window
       },
-      flutter_path = "/home/mx-vu/.local/share/flutter/bin/flutter",
+      -- nil = let flutter-tools find `flutter` on PATH (e.g. on Windows)
+      flutter_path = vim.uv.fs_stat("/home/mx-vu/.local/share/flutter/bin/flutter")
+          and "/home/mx-vu/.local/share/flutter/bin/flutter" or nil,
       outline = {
         open_cmd = "aboveleft 35vnew", -- command to use to open the outline buffer
         auto_open = false              -- if true this will open the outline automatically when it is first populated
