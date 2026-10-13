@@ -78,11 +78,17 @@ vim.api.nvim_set_keymap("n", "<Leader>do", ":Neogen<CR>", { noremap = true, sile
 vim.api.nvim_set_keymap('v', '<C-c>', '"*y :let @+=@*<CR>', {})
 vim.api.nvim_set_keymap('i', '<C-v>', '<Esc>"+p', {})
 
--- to open thunar
-vim.api.nvim_set_keymap('n', '<F8>', ':silent! !thunar %:p:h<CR>', {})
-
---to open terminal
-vim.api.nvim_set_keymap('n', '<F10>', ':silent! !xfce4-terminal --tab<cr><cr>', {})
+if vim.fn.has('win32') == 1 then
+  -- to open explorer
+  vim.keymap.set('n', '<F8>', function() vim.system({ 'explorer', vim.fn.expand('%:p:h') }) end, {})
+  --to open terminal
+  vim.keymap.set('n', '<F10>', function() vim.system({ 'wt', '-w', '0', 'nt', '-d', vim.fn.getcwd() }) end, {})
+else
+  -- to open thunar
+  vim.api.nvim_set_keymap('n', '<F8>', ':silent! !thunar %:p:h<CR>', {})
+  --to open terminal
+  vim.api.nvim_set_keymap('n', '<F10>', ':silent! !xfce4-terminal --tab<cr><cr>', {})
+end
 
 -- to open file in browser
 --vim.api.nvim_create_user_command('BrowserOpen', 'silent! !brave-browser %:p<CR>', {})
