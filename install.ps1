@@ -62,5 +62,13 @@ $env:Path = [Environment]::GetEnvironmentVariable('Path', 'Machine') + ';' + [En
 $missing = 'nvim', 'git', 'zig', 'fzf', 'rg', 'fd', 'node', 'npm', 'neovide' | Where-Object { -not (Get-Command $_ -ErrorAction SilentlyContinue) }
 if ($missing) { throw "still missing after winget: $($missing -join ', ')" }
 
+# lazy.nvim rewrites lazy-lock.json with whatever ended up installed; keep the committed pins
+$lock = "$PSScriptRoot\lazy-lock.json"
+$pinned = [IO.File]::ReadAllBytes($lock)
 nvim --headless "+lua dofile([[$PSScriptRoot\scripts\setup.lua]])"
-if ($LASTEXITCODE -ne 0) { throw "Neovim setup reported problems (see above)" }
+$code = $LASTEXITCODE
+if ([Convert]::ToBase64String([IO.File]::ReadAllBytes($lock)) -ne [Convert]::ToBase64String($pinned)) {
+  [IO.File]::WriteAllBytes($lock, $pinned)
+  Write-Host "restored lazy-lock.json (lazy.nvim had changed it)"
+}
+if ($code -ne 0) { throw "Neovim setup reported problems (see above)" }

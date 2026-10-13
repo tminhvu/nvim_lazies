@@ -104,9 +104,19 @@ if ! have node || [ "$(node -p 'process.versions.node.split(".")[0]')" -lt 18 ];
   log "warning: some LSP servers need Node.js 18+; you have $(node --version 2>/dev/null || echo none)"
 fi
 
-nvim --headless "+lua dofile([[$repo/scripts/setup.lua]])"
+# lazy.nvim rewrites lazy-lock.json with whatever ended up installed; keep the committed pins
+pinned="$(mktemp)"
+cp "$repo/lazy-lock.json" "$pinned"
+status=0
+nvim --headless "+lua dofile([[$repo/scripts/setup.lua]])" || status=$?
+if ! cmp -s "$pinned" "$repo/lazy-lock.json"; then
+  cp "$pinned" "$repo/lazy-lock.json"
+  log "restored lazy-lock.json (lazy.nvim had changed it)"
+fi
+rm -f "$pinned"
 
 case ":$original_path:" in
   *":$bin:"*) ;;
   *) log "note: add $bin to your PATH (e.g. in ~/.profile) so nvim, neovide and fd are found" ;;
 esac
+exit "$status"
