@@ -3,7 +3,7 @@ local M = {
   dependencies = {
     'nvim-tree/nvim-web-devicons',
   },
-  event = "UIEnter",
+  event = "VeryLazy",
   init = function()
     local init_group = vim.api.nvim_create_augroup('reset_group', {
       clear = false,
