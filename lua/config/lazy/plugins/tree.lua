@@ -1,13 +1,9 @@
 local M = {
   'nvim-treesitter/nvim-treesitter',
-  event = 'UIEnter',
+  event = 'VeryLazy',
   --lazy = false,
   branch = 'master',
   --build = ':TSUpdate',
-  dependencies = {
-    'windwp/nvim-ts-autotag',
-    'nvim-treesitter/playground'
-  },
   config = function()
     require 'nvim-treesitter.configs'.setup {
       ensure_installed = { "c", "java", "bash", "css", "lua", "html", "javascript", "typescript", "tsx", "json",
@@ -24,12 +20,6 @@ local M = {
         enable = false,
       },
       indent = {
-        enable = false,
-      },
-      autotag = {
-        enable = false,
-      },
-      playground = {
         enable = false,
       },
       textobjects = {
