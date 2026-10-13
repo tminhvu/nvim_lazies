@@ -8,7 +8,8 @@ local M = {
     require 'nvim-treesitter.configs'.setup {
       ensure_installed = { "c", "java", "bash", "css", "lua", "html", "javascript", "typescript", "tsx", "json",
         "markdown", "markdown_inline", "dart", "astro", "vimdoc", "go" },
-      sync_install = false,
+      -- no UI = scripts/setup.lua; install synchronously so it can wait for the parsers
+      sync_install = #vim.api.nvim_list_uis() == 0,
       auto_install = false,
       ignore_install = {},
       modules = {},
