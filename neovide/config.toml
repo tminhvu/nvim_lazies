@@ -1,0 +1,4 @@
+[font]
+# same font as the Windows Terminal default profile; JetBrainsMono as fallback
+normal = ["Iosevka Nerd Font", "JetBrainsMono Nerd Font"]
+size = 11.0
