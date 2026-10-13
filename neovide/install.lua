@@ -13,7 +13,7 @@ local dst = vim.fs.joinpath(dir, 'config.toml')
 
 vim.fn.mkdir(dir, 'p')
 
--- keep a backup if the installed config was changed locally
+-- keep a backup if the installed config differs (local edits or an older version)
 if vim.uv.fs_stat(dst) and not vim.deep_equal(vim.fn.readfile(dst), vim.fn.readfile(src)) then
   assert(vim.uv.fs_copyfile(dst, dst .. '.bak'))
   print('backed up ' .. dst .. ' -> ' .. dst .. '.bak')

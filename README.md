@@ -10,4 +10,4 @@ Neovide reads its config from outside this repo, so after pulling changes to `ne
 nvim -l neovide/install.lua
 ```
 
-This writes to `%APPDATA%\neovide\config.toml` on Windows and `~/.config/neovide/config.toml` elsewhere, backing up the old file as `config.toml.bak` if it was changed locally.
+This writes to `%APPDATA%\neovide\config.toml` on Windows and `~/.config/neovide/config.toml` elsewhere, backing up the old file as `config.toml.bak` if it differs from the repo's.
