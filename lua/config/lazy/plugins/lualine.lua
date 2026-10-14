@@ -5,6 +5,9 @@ local M = {
   },
   event = "VeryLazy",
   init = function()
+    -- start tracking before any language server attaches
+    require('config.lsp-status').setup()
+
     local init_group = vim.api.nvim_create_augroup('reset_group', {
       clear = false,
     })
@@ -59,6 +62,7 @@ local M = {
         --    return require('lsp-progress').progress()
         --end,
         --'filetype' },
+        function() return require('config.lsp-status').status() end, -- e.g. "dartls: starting 7s"
         'b:lsp_server' },
       lualine_y = { 'location' },
       lualine_z = { { 'datetime', style = "%H:%M" } }
