@@ -8,7 +8,10 @@ italic = [
   { family = "Iosevka Nerd Font", style = "SemiBold Italic" },
   { family = "JetBrainsMono Nerd Font", style = "SemiBold Italic" },
 ]
-size = 10.0
+# 11 pt like Windows Terminal; width -0.25 pt snaps the cell from 7.33 to 7 px, so every glyph
+# lands on the same pixel offset (and spacing matches the terminal's)
+size = 11.0
+width = -0.25
 # smooth edges like ClearType: subpixel antialiasing (needs g:neovide_pixel_geometry, set in
 # lua/config/neovide.lua) and slight hinting, so outlines aren't snapped into jagged steps
 edging = "subpixelantialias"

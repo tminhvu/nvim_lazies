@@ -6,6 +6,8 @@ end
 -- subpixel antialiasing (edging in neovide/config.toml) only works once the pixel layout is known;
 -- RGBH = a normal, unrotated monitor
 vim.g.neovide_pixel_geometry = 'RGBH'
+-- darker, crisper glyph edges, closer to ClearType in Windows Terminal (default 0.5)
+vim.g.neovide_text_contrast = 1.0
 
 -- zoom: Ctrl+= bigger, Ctrl+- smaller, Ctrl+0 reset (not saved across restarts)
 vim.g.neovide_scale_factor = 1.0
