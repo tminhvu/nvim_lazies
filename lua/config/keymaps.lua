@@ -1,5 +1,8 @@
 vim.cmd [[
 cabbrev <expr> w getcmdtype()==':' && getcmdline() == "'<,'>w" ? '<c-u>w' : 'w'
+" fat-fingered :q1 / :wq1 mean :q! / :wq! (only when that's the whole command)
+cnoreabbrev <expr> q1 getcmdtype() == ':' && getcmdline() ==# 'q1' ? 'q!' : 'q1'
+cnoreabbrev <expr> wq1 getcmdtype() == ':' && getcmdline() ==# 'wq1' ? 'wq!' : 'wq1'
 ]]
 
 vim.keymap.set('x', 'p', '"_dP', { noremap = true, silent = true })
@@ -26,7 +29,6 @@ vim.keymap.set('n', '<C-u>', '5k', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', 'q:', ':q', {})
 --vim.api.nvim_set_keymap('n', 'w:', ':w', {})
 --vim.api.nvim_set_keymap('n', ';w', ':w', {})
-vim.api.nvim_set_keymap('n', 'q1', 'q!', {})
 --vim.api.nvim_set_keymap('n', ';', ':', {})
 
 -- jump between buffer
