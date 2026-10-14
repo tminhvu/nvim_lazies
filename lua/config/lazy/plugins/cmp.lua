@@ -2,6 +2,17 @@ local M = {
   {
     "hrsh7th/nvim-cmp",
     event = "InsertEnter",
+    -- loading on the first `i`/`a`/`o` made that keypress lag ~45-125 ms; load it in idle time
+    -- shortly after startup instead (InsertEnter still loads it if you're quicker than that)
+    init = function()
+      vim.api.nvim_create_autocmd('User', {
+        pattern = 'VeryLazy',
+        once = true,
+        callback = function()
+          vim.defer_fn(function() require('lazy').load({ plugins = { 'nvim-cmp', 'nvim-autopairs' } }) end, 300)
+        end,
+      })
+    end,
     --lazy = true,
     dependencies = {
       "hrsh7th/cmp-buffer",
