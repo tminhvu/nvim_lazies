@@ -1,12 +1,12 @@
 [font]
-# same family as the Windows Terminal default profile, in Medium (Regular looked too thin); JetBrainsMono as fallback
+# same family as the Windows Terminal default profile, in SemiBold (Regular looked too thin, Medium still light); JetBrainsMono as fallback
 normal = [
-  { family = "Iosevka Nerd Font", style = "Medium" },
-  { family = "JetBrainsMono Nerd Font", style = "Medium" },
+  { family = "Iosevka Nerd Font", style = "SemiBold" },
+  { family = "JetBrainsMono Nerd Font", style = "SemiBold" },
 ]
 italic = [
-  { family = "Iosevka Nerd Font", style = "Medium Italic" },
-  { family = "JetBrainsMono Nerd Font", style = "Medium Italic" },
+  { family = "Iosevka Nerd Font", style = "SemiBold Italic" },
+  { family = "JetBrainsMono Nerd Font", style = "SemiBold Italic" },
 ]
 size = 10.0
 # smooth edges like ClearType: subpixel antialiasing (needs g:neovide_pixel_geometry, set in
