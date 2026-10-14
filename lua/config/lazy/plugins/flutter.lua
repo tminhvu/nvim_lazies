@@ -94,6 +94,10 @@ local M = {
           virtual_text_str = " ", -- the virtual text character to highlight
         },
         capabilities = capabilities,
+        -- completing names from unimported libraries made each completion 0.2-1.4 s (first one per
+        -- session ~1.3 s, occasional multi-second stalls), and diagnostics queue behind it; off,
+        -- completion is ~55 ms. Import new names with the "Import library" code action instead.
+        init_options = { suggestFromUnimportedLibraries = false },
         settings = {
           lineLength = 80,
           showTodos = true,
