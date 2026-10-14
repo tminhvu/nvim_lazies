@@ -18,11 +18,9 @@ vim.keymap.set({ 'n', 'v', 'i' }, '<C-=>', function() zoom(1.1) end, { desc = 'N
 vim.keymap.set({ 'n', 'v', 'i' }, '<C-->', function() zoom(1 / 1.1) end, { desc = 'Neovide: zoom out' })
 vim.keymap.set({ 'n', 'v', 'i' }, '<C-0>', function() vim.g.neovide_scale_factor = 1.0 end, { desc = 'Neovide: reset zoom' })
 
--- cursor: particles behind it, and a smooth fading blink. Trail size/animation stay at their
+-- cursor: no particles, and a smooth fading blink. Trail size/animation stay at their
 -- defaults: trail 1.0 makes the cursor itself land instantly, so the animation adds no lag.
-vim.g.neovide_cursor_vfx_mode = 'railgun'
-vim.g.neovide_cursor_vfx_particle_density = 1.0  -- default 0.7
-vim.g.neovide_cursor_vfx_particle_lifetime = 0.8 -- default 0.5
+vim.g.neovide_cursor_vfx_mode = ''
 vim.g.neovide_cursor_smooth_blink = true -- needs blinkwait/blinkon/blinkoff in guicursor
 vim.opt.guicursor = {
   'n-v-c-sm:block-blinkwait700-blinkoff400-blinkon250',
