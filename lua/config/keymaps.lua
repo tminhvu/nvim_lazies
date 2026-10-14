@@ -6,6 +6,9 @@ cnoreabbrev <expr> wq1 getcmdtype() == ':' && getcmdline() ==# 'wq1' ? 'wq!' : '
 ]]
 
 vim.keymap.set('x', 'p', '"_dP', { noremap = true, silent = true })
+-- d / D only delete (black hole register), so p keeps pasting what you last yanked; to cut, use visual x
+vim.keymap.set({ 'n', 'x' }, 'd', '"_d', { noremap = true, desc = 'Delete without yanking' })
+vim.keymap.set('n', 'D', '"_D', { noremap = true, desc = 'Delete to end of line without yanking' })
 
 --vim.api.nvim_create_user_command("Web", function()
 --  local pos1 = vim.fn.getpos("'<") -- Start of visual selection
