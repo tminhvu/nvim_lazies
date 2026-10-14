@@ -3,6 +3,10 @@ if not vim.g.neovide then
   return
 end
 
+-- subpixel antialiasing (edging in neovide/config.toml) only works once the pixel layout is known;
+-- RGBH = a normal, unrotated monitor
+vim.g.neovide_pixel_geometry = 'RGBH'
+
 -- zoom: Ctrl+= bigger, Ctrl+- smaller, Ctrl+0 reset (not saved across restarts)
 vim.g.neovide_scale_factor = 1.0
 
