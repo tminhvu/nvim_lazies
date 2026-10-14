@@ -5,7 +5,9 @@ cnoreabbrev <expr> q1 getcmdtype() == ':' && getcmdline() ==# 'q1' ? 'q!' : 'q1'
 cnoreabbrev <expr> wq1 getcmdtype() == ':' && getcmdline() ==# 'wq1' ? 'wq!' : 'wq1'
 ]]
 
-vim.keymap.set('x', 'p', '"_dP', { noremap = true, silent = true })
+-- visual p replaces the selection without yanking it: Neovim's built-in visual P does that, and
+-- unlike "_dP it also lands right when the selection ends at the end of a line
+vim.keymap.set('x', 'p', 'P', { noremap = true, silent = true })
 -- d / D only delete (black hole register), so p keeps pasting what you last yanked; to cut, use visual x
 vim.keymap.set({ 'n', 'x' }, 'd', '"_d', { noremap = true, desc = 'Delete without yanking' })
 vim.keymap.set('n', 'D', '"_D', { noremap = true, desc = 'Delete to end of line without yanking' })
