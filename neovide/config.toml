@@ -1,4 +1,12 @@
 [font]
-# same font as the Windows Terminal default profile; JetBrainsMono as fallback
-normal = ["Iosevka Nerd Font", "JetBrainsMono Nerd Font"]
+# same family as the Windows Terminal default profile, in Medium (Regular looked too thin); JetBrainsMono as fallback
+normal = [
+  { family = "Iosevka Nerd Font", style = "Medium" },
+  { family = "JetBrainsMono Nerd Font", style = "Medium" },
+]
+italic = { style = "Medium Italic" }
 size = 10.0
+# smooth edges like ClearType: subpixel antialiasing (needs g:neovide_pixel_geometry, set in
+# lua/config/neovide.lua) and slight hinting, so outlines aren't snapped into jagged steps
+edging = "subpixelantialias"
+hinting = "slight"
