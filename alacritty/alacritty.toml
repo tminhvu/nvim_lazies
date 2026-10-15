@@ -1,0 +1,55 @@
+# Alacritty (Windows): a lightweight terminal for nvim, set up like the Windows Terminal profile
+# it replaces. scripts/setup.lua copies this to %APPDATA%\alacritty\alacritty.toml.
+
+[terminal.shell]
+# start in ~\Repos when it exists, like Windows Terminal's startingDirectory
+program = "powershell.exe"
+args = ["-NoLogo", "-NoExit", "-Command", "if (Test-Path ~\\Repos) { Set-Location ~\\Repos }"]
+
+[window]
+dimensions = { columns = 120, lines = 30 }
+padding = { x = 6, y = 4 }
+dynamic_padding = true
+
+[scrolling]
+history = 5000
+
+[font]
+size = 11.0
+normal = { family = "Iosevka Nerd Font", style = "SemiBold" }
+bold = { family = "Iosevka Nerd Font", style = "Bold" }
+italic = { family = "Iosevka Nerd Font", style = "SemiBold Italic" }
+bold_italic = { family = "Iosevka Nerd Font", style = "Bold Italic" }
+
+# Windows Terminal's "Tango Light", with its foreground override
+[colors.primary]
+foreground = "#1a1a1a"
+background = "#ffffff"
+
+[colors.cursor]
+text = "#ffffff"
+cursor = "#000000"
+
+[colors.selection]
+text = "CellForeground"
+background = "#d3d7cf"
+
+[colors.normal]
+black = "#000000"
+red = "#cc0000"
+green = "#4e9a06"
+yellow = "#c4a000"
+blue = "#3465a4"
+magenta = "#75507b"
+cyan = "#06989a"
+white = "#d3d7cf"
+
+[colors.bright]
+black = "#555753"
+red = "#ef2929"
+green = "#8ae234"
+yellow = "#fce94f"
+blue = "#729fcf"
+magenta = "#ad7fa8"
+cyan = "#34e2e2"
+white = "#eeeeec"

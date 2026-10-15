@@ -1,7 +1,8 @@
 -- Neovim-side setup, run by install.ps1 / install.sh once the system tools are in place:
 --   nvim --headless "+lua dofile([[scripts/setup.lua]])"
 -- Installs plugins at the lazy-lock.json versions, builds the treesitter parsers, installs the
--- LSP servers with mason, installs the Neovide config and adds an `n` alias for neovide.
+-- LSP servers with mason, installs the Neovide (and on Windows, Alacritty) config and adds an `n`
+-- alias for neovide.
 -- Safe to run again after every pull.
 
 local repo = vim.fs.dirname(vim.fs.dirname(vim.fs.normalize(debug.getinfo(1, 'S').source:sub(2))))
@@ -110,19 +111,27 @@ if not vim.wait(30 * 60 * 1000, function() return pending == 0 end, 500) then
   fail('timed out waiting for mason installs')
 end
 
-step('Neovide config')
-local src = vim.fs.joinpath(repo, 'neovide', 'config.toml')
-local dir = is_windows and vim.fs.joinpath(vim.env.APPDATA, 'neovide')
-    or vim.fs.joinpath(vim.env.XDG_CONFIG_HOME or vim.fs.joinpath(vim.env.HOME, '.config'), 'neovide')
-local dst = vim.fs.joinpath(dir, 'config.toml')
-vim.fn.mkdir(dir, 'p')
--- keep a backup if the installed config differs (local edits or an older version)
-if vim.uv.fs_stat(dst) and not vim.deep_equal(vim.fn.readfile(dst), vim.fn.readfile(src)) then
-  assert(vim.uv.fs_copyfile(dst, dst .. '.bak'))
-  log('backed up ' .. dst .. ' -> ' .. dst .. '.bak')
+-- copy a config file from this repo into `dir`, keeping a backup if the installed one differs
+-- (local edits or an older version)
+local function install_config(src, dir)
+  local dst = vim.fs.joinpath(dir, vim.fs.basename(src))
+  vim.fn.mkdir(dir, 'p')
+  if vim.uv.fs_stat(dst) and not vim.deep_equal(vim.fn.readfile(dst), vim.fn.readfile(src)) then
+    assert(vim.uv.fs_copyfile(dst, dst .. '.bak'))
+    log('backed up ' .. dst .. ' -> ' .. dst .. '.bak')
+  end
+  assert(vim.uv.fs_copyfile(src, dst))
+  log('installed ' .. dst)
 end
-assert(vim.uv.fs_copyfile(src, dst))
-log('installed ' .. dst)
+
+step('Neovide config')
+install_config(vim.fs.joinpath(repo, 'neovide', 'config.toml'), is_windows and vim.fs.joinpath(vim.env.APPDATA, 'neovide')
+  or vim.fs.joinpath(vim.env.XDG_CONFIG_HOME or vim.fs.joinpath(vim.env.HOME, '.config'), 'neovide'))
+
+if is_windows then
+  step('Alacritty config')
+  install_config(vim.fs.joinpath(repo, 'alacritty', 'alacritty.toml'), vim.fs.joinpath(vim.env.APPDATA, 'alacritty'))
+end
 
 step('`n` alias for neovide')
 -- added once, appended so the rest of the file is untouched
