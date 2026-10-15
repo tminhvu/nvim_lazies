@@ -90,6 +90,26 @@ install_neovide() {
   curl -fsSL "https://github.com/neovide/neovide/releases/latest/download/neovide-linux-x86_64.tar" | tar -xf - -C "$bin"
 }
 
+# lightweight terminal (alacritty/alacritty.toml). No official Linux builds, so it comes from the
+# distro where it's packaged; its TOML config needs Alacritty 0.13+.
+install_alacritty() {
+  if ! have alacritty; then
+    log "installing Alacritty"
+    if have apt-get; then sudo apt-get install -y alacritty || true
+    elif have dnf; then sudo dnf install -y alacritty || true
+    elif have pacman; then sudo pacman -S --needed --noconfirm alacritty || true
+    fi
+  fi
+  if ! have alacritty; then log "note: no Alacritty package on this system; skipped it"; return; fi
+  local major minor
+  read -r major minor < <(alacritty --version | sed -E 's/^alacritty ([0-9]+)\.([0-9]+).*/\1 \2/')
+  if [ "$major" -eq 0 ] && [ "$minor" -lt 13 ]; then
+    log "note: $(alacritty --version) is too old for this config (needs 0.13+)"
+  else
+    log "ok         $(alacritty --version)"
+  fi
+}
+
 # $1 = Nerd Fonts release name, e.g. JetBrainsMono; installs the <name>NerdFont-*.ttf variant
 install_font() {
   # no grep -q: with pipefail, an early exit would SIGPIPE fc-list and fail the check
@@ -103,7 +123,7 @@ install_font() {
 }
 
 install_macos() {
-  # TODO(macOS): Homebrew: neovim git tree-sitter-cli fzf ripgrep fd node, and casks neovide,
+  # TODO(macOS): Homebrew: neovim git tree-sitter-cli fzf ripgrep fd node, and casks neovide, alacritty,
   # font-jetbrains-mono-nerd-font, font-iosevka-nerd-font. clang comes with the Xcode command line
   # tools. Then the same scripts/setup.lua run as below.
   log "macOS setup isn't written yet"
@@ -117,6 +137,7 @@ case "$(uname -s)" in
     install_neovim
     install_tree_sitter
     install_neovide
+    install_alacritty
     install_font JetBrainsMono
     install_font Iosevka
     ;;
