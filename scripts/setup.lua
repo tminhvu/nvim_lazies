@@ -1,8 +1,8 @@
 -- Neovim-side setup, run by install.ps1 / install.sh once the system tools are in place:
 --   nvim --headless "+lua dofile([[scripts/setup.lua]])"
 -- Installs plugins at the lazy-lock.json versions, builds the treesitter parsers, installs the
--- LSP servers with mason, installs the Neovide, Alacritty and tmux configs and adds an `n` alias for
--- neovide.
+-- LSP servers with mason, installs the Neovide, Alacritty and tmux configs, adds an `n` alias for
+-- neovide and, on Windows, bash-style Tab completion to PowerShell.
 -- Safe to run again after every pull.
 
 local repo = vim.fs.dirname(vim.fs.dirname(vim.fs.normalize(debug.getinfo(1, 'S').source:sub(2))))
@@ -142,26 +142,36 @@ step('tmux config')
 install_config(vim.fs.joinpath(vim.uv.os_homedir(), '.tmux.conf'),
   { 'tmux/tmux.conf', is_windows and 'tmux/windows.conf' or 'tmux/linux.conf' })
 
-step('`n` alias for neovide')
--- added once, appended so the rest of the file is untouched
-local function add_alias(file, alias)
+-- a line for a shell's startup file: added once, appended so the rest of the file is untouched
+local function add_line(file, line)
   local existing = vim.uv.fs_stat(file) and vim.fn.readfile(file, 'b') or {}
-  if vim.tbl_contains(existing, alias) or vim.tbl_contains(existing, alias .. '\r') then
+  if vim.tbl_contains(existing, line) or vim.tbl_contains(existing, line .. '\r') then
     log('ok         already in ' .. file)
     return
   end
-  if vim.fn.executable('n') == 1 then
-    log('note: the alias hides the existing `n` at ' .. vim.fn.exepath('n'))
-  end
   vim.fn.mkdir(vim.fs.dirname(file), 'p')
   -- start on a fresh line if the file doesn't end with one
-  local lines = (#existing > 0 and existing[#existing] ~= '') and { '', alias } or { alias }
+  local lines = (#existing > 0 and existing[#existing] ~= '') and { '', line } or { line }
   vim.fn.writefile(lines, file, 'a')
   log('added to ' .. file .. ' (open a new terminal to use it)')
 end
+local function add_alias(file, alias)
+  if vim.fn.executable('n') == 1 then
+    log('note: the alias hides the existing `n` at ' .. vim.fn.exepath('n'))
+  end
+  add_line(file, alias)
+end
+local profile = is_windows and vim.trim(vim.fn.system({ 'powershell', '-NoProfile', '-Command', '$PROFILE' }))
 
 if is_windows then
-  local profile = vim.trim(vim.fn.system({ 'powershell', '-NoProfile', '-Command', '$PROFILE' }))
+  step('PowerShell: bash-style Tab completion')
+  -- Tab completes as far as the matches agree, a second Tab lists them all (instead of cycling
+  -- through full matches)
+  add_line(profile, 'Set-PSReadLineKeyHandler -Key Tab -Function Complete')
+end
+
+step('`n` alias for neovide')
+if is_windows then
   add_alias(profile, 'Set-Alias -Name n -Value neovide')
 else
   local home = vim.env.HOME
