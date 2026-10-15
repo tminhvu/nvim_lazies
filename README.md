@@ -37,10 +37,11 @@ Use a normal terminal, not one inside an app installed from the Microsoft Store 
 
 ## Minimap
 
-A VS Code-style minimap on the right ([mini.map](https://github.com/nvim-mini/mini.map), `lua/config/lazy/plugins/minimap.lua`). It shows the file shrunk into block characters, marks the visible part and the cursor line, and colors search hits, diagnostics and git changes. It opens with the editor.
+A VS Code-style minimap on the right ([neominimap](https://github.com/Isrothy/neominimap.nvim), `lua/config/lazy/plugins/minimap.lua`). It draws the code in braille dots in its syntax colors, and marks diagnostics, git changes and search hits. It's a 20-column split of its own, so it covers no code, and it opens with the editor.
 
+- Click in it to jump there.
 - `<leader>mm` toggles it.
-- `<leader>mf` focuses it: move in it, then `<CR>` jumps there.
+- `<leader>mf` moves the cursor into it and back.
 
 ## Windows Terminal
 
