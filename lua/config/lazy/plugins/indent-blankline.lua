@@ -1,6 +1,7 @@
 local M = {
   'lukas-reineke/indent-blankline.nvim',
-  --event = 'UIEnter',
+  -- plugins are lazy by default (config.lazy), so without an event this never loaded
+  event = { 'BufReadPost', 'BufNewFile' },
   main = 'ibl',
   opts = {},
   config = function()
