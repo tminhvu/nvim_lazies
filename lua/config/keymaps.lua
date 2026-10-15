@@ -1,8 +1,10 @@
 vim.cmd [[
 cabbrev <expr> w getcmdtype()==':' && getcmdline() == "'<,'>w" ? '<c-u>w' : 'w'
-" fat-fingered :q1 / :wq1 mean :q! / :wq! (only when that's the whole command)
+" fat-fingered :q1 / :wq1 / :qa1 / :wqa1 mean :q! / :wq! / :qa! / :wqa! (only when that's the whole command)
 cnoreabbrev <expr> q1 getcmdtype() == ':' && getcmdline() ==# 'q1' ? 'q!' : 'q1'
 cnoreabbrev <expr> wq1 getcmdtype() == ':' && getcmdline() ==# 'wq1' ? 'wq!' : 'wq1'
+cnoreabbrev <expr> qa1 getcmdtype() == ':' && getcmdline() ==# 'qa1' ? 'qa!' : 'qa1'
+cnoreabbrev <expr> wqa1 getcmdtype() == ':' && getcmdline() ==# 'wqa1' ? 'wqa!' : 'wqa1'
 ]]
 
 -- visual p replaces the selection without yanking it: Neovim's built-in visual P does that, and
