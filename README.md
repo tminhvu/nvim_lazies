@@ -24,7 +24,7 @@ git clone https://github.com/tminhvu/nvim_lazies ~/.config/nvim
 
 The installer sets up:
 
-- **Tools:** Neovim 0.11+, git, a C compiler for treesitter (zig on Windows, gcc on Linux), fzf, ripgrep, fd, Node.js for the npm-based LSP servers, a clipboard tool on Linux, Neovide, and the JetBrainsMono and Iosevka Nerd Fonts. Windows uses winget. Linux uses the distro's packages, falling back to the official Neovim, Neovide and Nerd Font releases in `~/.local` when those are missing or too old.
+- **Tools:** Neovim 0.12+, git, the tree-sitter CLI (0.26.1+) and a C compiler to build the treesitter parsers (zig on Windows, gcc on Linux), fzf, ripgrep, fd, Node.js for the npm-based LSP servers, a clipboard tool on Linux, Neovide, and the JetBrainsMono and Iosevka Nerd Fonts. Windows uses winget. Linux uses the distro's packages, falling back to the official Neovim, tree-sitter, Neovide and Nerd Font releases in `~/.local` when those are missing or too old.
 - **Neovim side (`scripts/setup.lua`):** plugins at the `lazy-lock.json` versions, the treesitter parsers, the LSP servers through mason, the Neovide config, and an `n` alias for Neovide.
 
 Use a normal terminal, not one inside an app installed from the Microsoft Store (MSIX). Such an app can get a private, redirected copy of AppData, so the Neovide config would never reach the real `%APPDATA%`. `install.ps1` checks for this and stops.
