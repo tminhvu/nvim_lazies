@@ -27,7 +27,7 @@ vim.diagnostic.config({
             min = vim.diagnostic.severity.WARN
         }
     },
-    sign = true,
+    signs = true,
 })
 
 --local signs = {
