@@ -45,7 +45,7 @@ A lightweight terminal to run nvim in, in nvim's own colors (catppuccin latte), 
 | `Ctrl+Shift+Q` | close the current tab (the last one closes the window) |
 | `Alt+1` … `Alt+9` | go to tab 1 … 9 |
 
-The tabs show in a bar along the top. Closing the window closes its tabs, and nothing keeps running in the background.
+The tabs show in a bar along the bottom. It sits there because psmux puts mouse clicks a row too low when the bar is on top. Closing the window closes its tabs, and nothing keeps running in the background.
 
 - **Files:**
   - `alacritty/alacritty.toml`: font (Iosevka Nerd Font 11 SemiBold), colors, the window, and the keys above. It's installed to `%APPDATA%\alacritty\alacritty.toml` on Windows and `~/.config/alacritty/alacritty.toml` on Linux. New windows start in `~/Repos` when it exists.
