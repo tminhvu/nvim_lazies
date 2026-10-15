@@ -24,7 +24,7 @@ git clone https://github.com/tminhvu/nvim_lazies ~/.config/nvim
 
 The installer sets up:
 
-- **Tools:** Neovim 0.12+, git, the tree-sitter CLI (0.26.1+) and a C compiler to build the treesitter parsers (zig on Windows, gcc on Linux), fzf, ripgrep, fd, Node.js for the npm-based LSP servers, a clipboard tool on Linux, Neovide, Alacritty with tmux (psmux on Windows), and the JetBrainsMono and Iosevka Nerd Fonts. Windows uses winget. Linux uses the distro's packages, falling back to the official Neovim, tree-sitter, Neovide and Nerd Font releases in `~/.local` when those are missing or too old.
+- **Tools:** Neovim 0.12+, git, the tree-sitter CLI (0.26.1+) and a C compiler to build the treesitter parsers (zig on Windows, gcc on Linux), fzf, ripgrep, fd, Node.js for the npm-based LSP servers, a clipboard tool on Linux, Neovide, Alacritty with tmux (psmux on Windows), and the JetBrainsMono and Iosevka Nerd Fonts in their Mono variants, whose icons are one cell wide like the text. Windows uses winget. Linux uses the distro's packages, falling back to the official Neovim, tree-sitter, Neovide and Nerd Font releases in `~/.local` when those are missing or too old.
 - **Neovim side (`scripts/setup.lua`):** plugins at the `lazy-lock.json` versions, the treesitter parsers, the LSP servers through mason, the Neovide, Alacritty and tmux configs, an `n` alias for Neovide, and on Windows bash-style Tab completion in PowerShell. Tab completes as far as the matches agree, and a second Tab lists them all (`Set-PSReadLineKeyHandler -Key Tab -Function Complete` in your PowerShell profile).
 
 Use a normal terminal, not one inside an app installed from the Microsoft Store (MSIX). Such an app can get a private, redirected copy of AppData, so the Neovide config would never reach the real `%APPDATA%`. `install.ps1` checks for this and stops.
@@ -48,7 +48,7 @@ A lightweight terminal to run nvim in, in nvim's own colors (catppuccin latte), 
 The tabs show in a bar along the bottom. It sits there because psmux puts mouse clicks a row too low when the bar is on top. Closing the window closes its tabs, and nothing keeps running in the background.
 
 - **Files:**
-  - `alacritty/alacritty.toml`: font (Iosevka Nerd Font 11 SemiBold), colors, the window, and the keys above. It's installed to `%APPDATA%\alacritty\alacritty.toml` on Windows and `~/.config/alacritty/alacritty.toml` on Linux. New windows start in `~/Repos` when it exists.
+  - `alacritty/alacritty.toml`: font (Iosevka Nerd Font Mono 11 SemiBold), colors, the window, and the keys above. It's installed to `%APPDATA%\alacritty\alacritty.toml` on Windows and `~/.config/alacritty/alacritty.toml` on Linux. New windows start in `~/Repos` when it exists.
   - `tmux/tmux.conf`: the tabs and their bar. It's installed as `~/.tmux.conf`, with `tmux/windows.conf` (PowerShell, `Ctrl+V` for nvim) or `tmux/linux.conf` (true color and undercurl) appended.
   - A differing installed copy of either is backed up as `.bak` first.
 - **Linux:** Alacritty needs 0.14+ for this config. It comes from the distro if that's new enough; otherwise it's built with `cargo` into `~/.local/bin`.

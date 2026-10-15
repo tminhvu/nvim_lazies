@@ -27,7 +27,7 @@ $packages = @(
   'BurntSushi.ripgrep.MSVC',       # live grep, todo search
   'sharkdp.fd',                    # file finder for fzf-lua
   'OpenJS.NodeJS.LTS',             # npm-based LSP servers
-  'DEVCOM.JetBrainsMonoNerdFont',
+  'DEVCOM.JetBrainsMonoNerdFont',  # all its variants, Mono included
   'Neovide.Neovide',
   'Alacritty.Alacritty',           # lightweight terminal (alacritty/alacritty.toml)...
   'marlocarlo.psmux'               # ...running psmux, the native tmux for Windows, for tabs (tmux/)
@@ -40,12 +40,13 @@ foreach ($id in $packages) {
   if ($LASTEXITCODE -ne 0) { Write-Warning "winget install $id exited with $LASTEXITCODE" }
 }
 
-# Nerd Fonts that winget doesn't carry: per-user install from the official release
+# Nerd Fonts that winget doesn't carry: per-user install from the official release. The Mono variant:
+# its icons are one cell wide, like the text, instead of spilling into the next cell
 function Install-NerdFont([string]$Name) {
   $fontDir = "$env:LOCALAPPDATA\Microsoft\Windows\Fonts"
-  $pattern = "${Name}NerdFont-*.ttf"
-  if (Get-ChildItem $fontDir -Filter $pattern -ErrorAction SilentlyContinue) { Write-Host "ok         $Name Nerd Font"; return }
-  Write-Host "installing $Name Nerd Font"
+  $pattern = "${Name}NerdFontMono-*.ttf"
+  if (Get-ChildItem $fontDir -Filter $pattern -ErrorAction SilentlyContinue) { Write-Host "ok         $Name Nerd Font Mono"; return }
+  Write-Host "installing $Name Nerd Font Mono"
   $tmp = Join-Path $env:TEMP "nerd-font-$Name-$PID"
   New-Item -ItemType Directory -Force $tmp, $fontDir | Out-Null
   curl.exe -fsSL -o "$tmp\$Name.tar.xz" "https://github.com/ryanoasis/nerd-fonts/releases/latest/download/$Name.tar.xz"

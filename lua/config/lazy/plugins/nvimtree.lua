@@ -122,9 +122,9 @@ local M = {
               ignored = "ig",
             },
           },
-          -- two spaces after an icon: Nerd Font icons are wider than a cell and cover the first,
-          -- so with one the names looked glued to their icons
-          padding = { icon = "  ", folder_arrow = " " },
+          -- one space after an icon; the fonts are the Nerd Font "Mono" variants, whose icons are a
+          -- cell wide (the regular ones spill over and cover the space)
+          padding = { icon = " ", folder_arrow = " " },
           web_devicons = {
             file = {
               color = true
