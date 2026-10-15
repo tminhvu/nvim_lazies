@@ -50,12 +50,11 @@ end, { nargs = '?', complete = function() return fx_modes end, desc = 'Neovide: 
 -- scrolling: a bit quicker than the default 0.3 s
 vim.g.neovide_scroll_animation_length = 0.2
 
--- floating windows (completion menu, hover, diagnostics): rounded corners, a soft shadow, more blur
-vim.g.neovide_floating_corner_radius = 0.3 -- fraction of the line height
-vim.g.neovide_floating_shadow = true
-vim.g.neovide_floating_z_height = 10
-vim.g.neovide_light_angle_degrees = 45
-vim.g.neovide_light_radius = 5
+-- floating windows (completion menu, hover, diagnostics) are framed by their rounded border line
+-- ('winborder', config.settings). Neovide's shadow and rounded corners outline the whole window,
+-- half a cell outside that line, so they're off.
+vim.g.neovide_floating_corner_radius = 0.0
+vim.g.neovide_floating_shadow = false
 vim.g.neovide_floating_blur_amount_x = 3.0 -- default 2.0
 vim.g.neovide_floating_blur_amount_y = 3.0
 

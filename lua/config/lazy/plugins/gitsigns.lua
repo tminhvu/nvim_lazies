@@ -24,7 +24,7 @@ local M = {
             },
             preview_config = {
                 -- Options passed to nvim_open_win
-                border = 'none',
+                border = 'rounded',
                 relative = 'cursor',
                 row = 1,
                 col = 1

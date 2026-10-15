@@ -17,6 +17,7 @@ require('lazy').setup('config.lazy.plugins', {
         lazy = true, -- should plugins be lazy-loaded?
     },
     ui = {
+        border = 'rounded',
         custom_keys = {
             -- open lazygit log
             ["<localleader>l"] = false,
