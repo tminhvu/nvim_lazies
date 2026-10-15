@@ -1,12 +1,13 @@
 [font]
-# same family as the Windows Terminal default profile, in SemiBold (Regular looked too thin, Medium still light); JetBrainsMono as fallback
+# Iosevka in SemiBold (Regular looked too thin, Medium still light), JetBrainsMono as fallback. The Mono
+# variants: their icons are one cell wide, like the text, instead of spilling into the next cell
 normal = [
-  { family = "Iosevka Nerd Font", style = "SemiBold" },
-  { family = "JetBrainsMono Nerd Font", style = "SemiBold" },
+  { family = "Iosevka Nerd Font Mono", style = "SemiBold" },
+  { family = "JetBrainsMono Nerd Font Mono", style = "SemiBold" },
 ]
 italic = [
-  { family = "Iosevka Nerd Font", style = "SemiBold Italic" },
-  { family = "JetBrainsMono Nerd Font", style = "SemiBold Italic" },
+  { family = "Iosevka Nerd Font Mono", style = "SemiBold Italic" },
+  { family = "JetBrainsMono Nerd Font Mono", style = "SemiBold Italic" },
 ]
 # 11 pt like Windows Terminal; width -0.25 pt snaps the cell from 7.33 to 7 px, so every glyph
 # lands on the same pixel offset (and spacing matches the terminal's)

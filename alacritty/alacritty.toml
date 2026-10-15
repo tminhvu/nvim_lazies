@@ -25,10 +25,11 @@ history = 5000
 
 [font]
 size = 11.0
-normal = { family = "Iosevka Nerd Font", style = "SemiBold" }
-bold = { family = "Iosevka Nerd Font", style = "Bold" }
-italic = { family = "Iosevka Nerd Font", style = "SemiBold Italic" }
-bold_italic = { family = "Iosevka Nerd Font", style = "Bold Italic" }
+# the Mono variant: icons one cell wide, like the text
+normal = { family = "Iosevka Nerd Font Mono", style = "SemiBold" }
+bold = { family = "Iosevka Nerd Font Mono", style = "Bold" }
+italic = { family = "Iosevka Nerd Font Mono", style = "SemiBold Italic" }
+bold_italic = { family = "Iosevka Nerd Font Mono", style = "Bold Italic" }
 
 # catppuccin latte, from catppuccin's own Alacritty theme (github.com/catppuccin/alacritty), so the
 # shell and the space around nvim match nvim; the selection is nvim's Visual color

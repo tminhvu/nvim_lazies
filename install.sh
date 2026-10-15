@@ -133,15 +133,16 @@ EOF
   log "installed $("$bin/alacritty" --version)"
 }
 
-# $1 = Nerd Fonts release name, e.g. JetBrainsMono; installs the <name>NerdFont-*.ttf variant
+# $1 = Nerd Fonts release name, e.g. JetBrainsMono; installs the <name>NerdFontMono-*.ttf variant,
+# whose icons are one cell wide, like the text, instead of spilling into the next cell
 install_font() {
   # no grep -q: with pipefail, an early exit would SIGPIPE fc-list and fail the check
-  if fc-list | grep "$1NerdFont-" >/dev/null; then log "ok         $1 Nerd Font"; return; fi
-  log "installing $1 Nerd Font"
-  local dir="$HOME/.local/share/fonts/$1NerdFont"
+  if fc-list | grep "$1NerdFontMono-" >/dev/null; then log "ok         $1 Nerd Font Mono"; return; fi
+  log "installing $1 Nerd Font Mono"
+  local dir="$HOME/.local/share/fonts/$1NerdFontMono"
   mkdir -p "$dir"
   curl -fsSL "https://github.com/ryanoasis/nerd-fonts/releases/latest/download/$1.tar.xz" |
-    tar -xJf - -C "$dir" --wildcards "$1NerdFont-*.ttf"
+    tar -xJf - -C "$dir" --wildcards "$1NerdFontMono-*.ttf"
   fc-cache -f "$dir" >/dev/null
 }
 
