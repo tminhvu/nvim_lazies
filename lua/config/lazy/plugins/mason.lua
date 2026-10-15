@@ -29,7 +29,7 @@ return {
       local opts = { noremap = true, silent = true, buffer = bufnr }
 
       vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
-      vim.keymap.set("n", "K", function() vim.lsp.buf.hover({ border = 'single' }) end, opts)
+      vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, opts)
       vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
       vim.keymap.set("n", "gD", vim.lsp.buf.type_definition, opts)
 

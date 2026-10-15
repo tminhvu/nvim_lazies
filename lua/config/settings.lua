@@ -56,6 +56,9 @@ vim.o.cursorline = true
 vim.g.markdown_fenced_languages = { 'java', 'c', 'javascript', 'lua', 'html', 'css' }
 vim.o.completeopt = 'menuone,noinsert,noselect'
 vim.o.termguicolors = true
+-- rounded border on every floating window that doesn't pick its own (hover, signature help,
+-- diagnostic float, Mason, ...), matching the completion menu and fzf-lua
+vim.o.winborder = 'rounded'
 
 vim.api.nvim_create_autocmd('FileType', {
     pattern = 'dart',
