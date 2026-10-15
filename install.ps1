@@ -29,7 +29,8 @@ $packages = @(
   'OpenJS.NodeJS.LTS',             # npm-based LSP servers
   'DEVCOM.JetBrainsMonoNerdFont',
   'Neovide.Neovide',
-  'Alacritty.Alacritty'            # lightweight terminal (alacritty/alacritty.toml)
+  'Alacritty.Alacritty',           # lightweight terminal (alacritty/alacritty.toml)...
+  'marlocarlo.psmux'               # ...running psmux, the native tmux for Windows, for tabs (tmux/)
 )
 foreach ($id in $packages) {
   $null = winget list --id $id --exact --accept-source-agreements --disable-interactivity
@@ -61,7 +62,7 @@ Install-NerdFont 'Iosevka'
 
 # pick up anything winget just put on PATH
 $env:Path = [Environment]::GetEnvironmentVariable('Path', 'Machine') + ';' + [Environment]::GetEnvironmentVariable('Path', 'User')
-$missing = 'nvim', 'git', 'tree-sitter', 'zig', 'fzf', 'rg', 'fd', 'node', 'npm', 'neovide', 'alacritty' | Where-Object { -not (Get-Command $_ -ErrorAction SilentlyContinue) }
+$missing = 'nvim', 'git', 'tree-sitter', 'zig', 'fzf', 'rg', 'fd', 'node', 'npm', 'neovide', 'alacritty', 'tmux' | Where-Object { -not (Get-Command $_ -ErrorAction SilentlyContinue) }
 if ($missing) { throw "still missing after winget: $($missing -join ', ')" }
 
 # nvim-treesitter's `main` branch needs Neovim 0.12+ and tree-sitter 0.26.1+; an install from
