@@ -59,6 +59,19 @@ vim.o.termguicolors = true
 -- rounded border on every floating window that doesn't pick its own (hover, signature help,
 -- diagnostic float, Mason, ...), matching the completion menu and fzf-lua
 vim.o.winborder = 'rounded'
+-- popups on the editor background, so the border line is their edge: themes fill popups (and
+-- the border's cells) with a darker shade, and border characters draw their line through the
+-- middle of the cell, which left a band of that shade outside the line
+vim.api.nvim_create_autocmd('ColorScheme', {
+    callback = function()
+        local bg = vim.api.nvim_get_hl(0, { name = 'Normal', link = false }).bg
+        for _, group in ipairs({ 'NormalFloat', 'FloatBorder', 'FloatTitle', 'FloatFooter' }) do
+            local hl = vim.api.nvim_get_hl(0, { name = group, link = false })
+            hl.bg = bg
+            vim.api.nvim_set_hl(0, group, hl)
+        end
+    end,
+})
 
 vim.api.nvim_create_autocmd('FileType', {
     pattern = 'dart',
