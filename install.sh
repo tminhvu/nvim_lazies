@@ -4,8 +4,9 @@
 #
 #   ~/.config/nvim/install.sh
 #
-# Packages come from apt, dnf or pacman (sudo). Neovim, Neovide and the Nerd Fonts come from their
-# official releases when the distro's versions are missing or too old; those go in ~/.local.
+# Packages come from apt, dnf or pacman (sudo). Neovim, the tree-sitter CLI, Neovide and the Nerd
+# Fonts come from their official releases when the distro's versions are missing or too old; those
+# go in ~/.local.
 set -euo pipefail
 
 repo="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -38,12 +39,12 @@ install_packages() {
   fi
 }
 
-# the config uses vim.lsp.config / vim.lsp.enable, so it needs Neovim 0.11+
+# nvim-treesitter's `main` branch needs Neovim 0.12+
 nvim_is_recent() {
   have nvim || return 1
   local major minor
   read -r major minor < <(nvim --version | head -n1 | sed -E 's/^NVIM v([0-9]+)\.([0-9]+).*/\1 \2/')
-  [ "$major" -gt 0 ] || [ "$minor" -ge 11 ]
+  [ "$major" -gt 0 ] || [ "$minor" -ge 12 ]
 }
 
 install_neovim() {
@@ -58,6 +59,28 @@ install_neovim() {
   rm -rf "$opt/nvim-linux-$arch"
   curl -fsSL "https://github.com/neovim/neovim/releases/latest/download/nvim-linux-$arch.tar.gz" | tar -xzf - -C "$opt"
   ln -sf "$opt/nvim-linux-$arch/bin/nvim" "$bin/nvim"
+}
+
+# builds the treesitter parsers; nvim-treesitter needs 0.26.1+, newer than most distros ship
+tree_sitter_is_recent() {
+  have tree-sitter || return 1
+  local major minor patch
+  read -r major minor patch < <(tree-sitter --version | sed -E 's/^tree-sitter ([0-9]+)\.([0-9]+)\.([0-9]+).*/\1 \2 \3/')
+  [ "$major" -gt 0 ] || [ "$minor" -gt 26 ] || { [ "$minor" -eq 26 ] && [ "$patch" -ge 1 ]; }
+}
+
+install_tree_sitter() {
+  if tree_sitter_is_recent; then log "ok         $(tree-sitter --version)"; return; fi
+  local arch
+  case "$(uname -m)" in
+    x86_64) arch=x64 ;;
+    aarch64 | arm64) arch=arm64 ;;
+    *) log "no tree-sitter release for $(uname -m)"; exit 1 ;;
+  esac
+  log "installing tree-sitter CLI (official release)"
+  curl -fsSL "https://github.com/tree-sitter/tree-sitter/releases/latest/download/tree-sitter-linux-$arch.gz" |
+    gunzip >"$bin/tree-sitter"
+  chmod +x "$bin/tree-sitter"
 }
 
 install_neovide() {
@@ -80,7 +103,7 @@ install_font() {
 }
 
 install_macos() {
-  # TODO(macOS): Homebrew: neovim git fzf ripgrep fd node, and casks neovide,
+  # TODO(macOS): Homebrew: neovim git tree-sitter-cli fzf ripgrep fd node, and casks neovide,
   # font-jetbrains-mono-nerd-font, font-iosevka-nerd-font. clang comes with the Xcode command line
   # tools. Then the same scripts/setup.lua run as below.
   log "macOS setup isn't written yet"
@@ -92,6 +115,7 @@ case "$(uname -s)" in
     mkdir -p "$bin" "$opt"
     install_packages
     install_neovim
+    install_tree_sitter
     install_neovide
     install_font JetBrainsMono
     install_font Iosevka
@@ -117,6 +141,6 @@ rm -f "$pinned"
 
 case ":$original_path:" in
   *":$bin:"*) ;;
-  *) log "note: add $bin to your PATH (e.g. in ~/.profile) so nvim, neovide and fd are found" ;;
+  *) log "note: add $bin to your PATH (e.g. in ~/.profile) so nvim, tree-sitter, neovide and fd are found" ;;
 esac
 exit "$status"

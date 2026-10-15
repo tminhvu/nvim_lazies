@@ -1,6 +1,6 @@
 -- Neovim-side setup, run by install.ps1 / install.sh once the system tools are in place:
 --   nvim --headless "+lua dofile([[scripts/setup.lua]])"
--- Installs plugins at the lazy-lock.json versions, compiles the treesitter parsers, installs the
+-- Installs plugins at the lazy-lock.json versions, builds the treesitter parsers, installs the
 -- LSP servers with mason, installs the Neovide config and adds an `n` alias for neovide.
 -- Safe to run again after every pull.
 
@@ -43,11 +43,40 @@ end
 log(('%d plugins installed'):format(vim.tbl_count(require('lazy.core.config').plugins)))
 
 step('treesitter parsers')
--- tree.lua installs synchronously when there is no UI, so this returns once they're compiled
-require('lazy').load({ plugins = { 'nvim-treesitter' } })
-for _, lang in ipairs(require('nvim-treesitter.configs').get_ensure_installed_parsers()) do
-  if not require('nvim-treesitter.parsers').has_parser(lang) then fail('treesitter parser missing: ' .. lang) end
+local function install_parsers()
+  -- nvim-treesitter's `main` branch: Neovim 0.12+, and `tree-sitter build` compiles every parser
+  if vim.fn.has('nvim-0.12') == 0 then
+    return fail('nvim-treesitter needs Neovim 0.12 or newer; this is ' .. tostring(vim.version()))
+  end
+  for _, tool in ipairs({ 'tree-sitter', 'tar', 'curl' }) do
+    if vim.fn.executable(tool) == 0 then return fail(tool .. ' is not on PATH') end
+  end
+  local plugin = require('lazy.core.config').plugins['nvim-treesitter']
+  -- the archived `master` branch compiled its parsers into the plugin folder, which would shadow
+  -- the ones `main` installs (under stdpath('data')/site)
+  for _, leftover in ipairs({ 'parser', 'parser-info' }) do
+    local dir = vim.fs.joinpath(plugin.dir, leftover)
+    vim.fn.delete(dir, 'rf')
+    -- Windows keeps a parser a running Neovim has loaded; the new ones come first on the rtp anyway
+    if vim.uv.fs_stat(dir) then
+      log('note: could not remove all of ' .. dir .. ' (in use by a running Neovim?); run this again after closing it')
+    end
+  end
+  -- the restore above may have just switched the plugin over from `master`: use the new modules
+  for name in pairs(package.loaded) do
+    if name:match('^nvim%-treesitter') then package.loaded[name] = nil end
+  end
+  local ts = require('nvim-treesitter')
+  local wanted = require('lazy.core.plugin').values(plugin, 'opts', false).ensure_installed
+  local ok, err = ts.install(wanted, { summary = true }):pwait(30 * 60 * 1000)
+  if not ok then fail('installing treesitter parsers: ' .. tostring(err)) end
+  local installed = ts.get_installed('parsers')
+  for _, lang in ipairs(wanted) do
+    if not vim.list_contains(installed, lang) then fail('treesitter parser missing: ' .. lang) end
+  end
+  log(('%d parsers installed'):format(#installed))
 end
+install_parsers()
 
 step('LSP servers (mason)')
 require('lazy').load({ plugins = { 'mason-lspconfig.nvim' } })

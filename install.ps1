@@ -21,7 +21,8 @@ if ($redirected) {
 $packages = @(
   'Neovim.Neovim',
   'Git.Git',                       # lazy.nvim, gitsigns
-  'zig.zig',                       # C compiler for treesitter parsers
+  'tree-sitter.tree-sitter-cli',   # builds the treesitter parsers...
+  'zig.zig',                       # ...with zig as the C compiler (lua/config/lazy/plugins/tree.lua)
   'junegunn.fzf',                  # fzf-lua
   'BurntSushi.ripgrep.MSVC',       # live grep, todo search
   'sharkdp.fd',                    # file finder for fzf-lua
@@ -59,8 +60,19 @@ Install-NerdFont 'Iosevka'
 
 # pick up anything winget just put on PATH
 $env:Path = [Environment]::GetEnvironmentVariable('Path', 'Machine') + ';' + [Environment]::GetEnvironmentVariable('Path', 'User')
-$missing = 'nvim', 'git', 'zig', 'fzf', 'rg', 'fd', 'node', 'npm', 'neovide' | Where-Object { -not (Get-Command $_ -ErrorAction SilentlyContinue) }
+$missing = 'nvim', 'git', 'tree-sitter', 'zig', 'fzf', 'rg', 'fd', 'node', 'npm', 'neovide' | Where-Object { -not (Get-Command $_ -ErrorAction SilentlyContinue) }
 if ($missing) { throw "still missing after winget: $($missing -join ', ')" }
+
+# nvim-treesitter's `main` branch needs Neovim 0.12+ and tree-sitter 0.26.1+; an install from
+# before this script asked for them may be older (winget list above only checks it's there)
+function Assert-Version([string]$Id, [string]$Have, [version]$Need) {
+  if ([version]$Have -ge $Need) { return }
+  Write-Host "upgrading $Id ($Have, needs $Need+)"
+  winget upgrade --id $Id --exact --silent --accept-package-agreements --accept-source-agreements --disable-interactivity
+  if ($LASTEXITCODE -ne 0) { throw "winget upgrade $Id exited with $LASTEXITCODE; $Id $Need+ is needed" }
+}
+Assert-Version 'Neovim.Neovim' ((nvim --version | Select-Object -First 1) -replace '^NVIM v(\d+\.\d+\.\d+).*', '$1') '0.12.0'
+Assert-Version 'tree-sitter.tree-sitter-cli' ((tree-sitter --version) -replace '^tree-sitter (\d+\.\d+\.\d+).*', '$1') '0.26.1'
 
 # lazy.nvim rewrites lazy-lock.json with whatever ended up installed; keep the committed pins
 $lock = "$PSScriptRoot\lazy-lock.json"
