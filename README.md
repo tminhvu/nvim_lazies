@@ -35,6 +35,14 @@ Use a normal terminal, not one inside an app installed from the Microsoft Store 
 - `n` and `n file` open Neovide. The alias goes in your PowerShell profile, or in `.bashrc`, `.zshrc` or fish's `config.fish`.
 - `Ctrl+=` / `Ctrl+-` zoom in and out, and `Ctrl+0` resets (`lua/config/neovide.lua`). Zoom isn't saved; to keep a size, change `size` in `neovide/config.toml`.
 
+## Minimap
+
+A VS Code-style minimap on the right ([neominimap](https://github.com/Isrothy/neominimap.nvim), `lua/config/lazy/plugins/minimap.lua`). It draws the code in braille dots in its syntax colors, and marks diagnostics, git changes and search hits. It's a 20-column split of its own, so it covers no code, and it opens with the editor.
+
+- Click in it to jump there.
+- `<leader>mm` toggles it.
+- `<leader>mf` moves the cursor into it and back.
+
 ## Windows Terminal
 
 `windows-terminal/settings.json` is installed over Windows Terminal's own `settings.json` (in its package folder; a differing copy is backed up as `.bak` first). It's skipped if Windows Terminal isn't installed. The settings:
