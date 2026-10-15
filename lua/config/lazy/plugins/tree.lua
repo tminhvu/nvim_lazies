@@ -19,6 +19,20 @@ local M = {
       "markdown", "markdown_inline", "dart", "astro", "vimdoc", "go" },
   },
   init = function()
+    -- GitHub won't serve tree-sitter-html's source archive for the commit nvim-treesitter pins
+    -- (404; the same commit downloads fine by branch name). Tag v0.23.2 has the identical grammar
+    -- (only CI files changed since), so fetch that. Only for that exact pin: once nvim-treesitter
+    -- moves html to another commit, this does nothing.
+    vim.api.nvim_create_autocmd('User', {
+      pattern = 'TSUpdate',
+      callback = function()
+        local html = require('nvim-treesitter.parsers').html
+        if html and html.install_info and html.install_info.revision == '73a3947324f6efddf9e17c0ea58d454843590cc0' then
+          html.install_info.revision = 'v0.23.2'
+        end
+      end,
+    })
+
     -- Windows: `tree-sitter build` compiles with Rust's cc crate, which only looks for MSVC. Without
     -- Visual Studio, point it at zig (install.ps1 installs it) and turn off the cc crate's default
     -- flags: zig can't parse their --target=x86_64-pc-windows-msvc. Only the cc crate reads these

@@ -55,7 +55,12 @@ local function install_parsers()
   -- the archived `master` branch compiled its parsers into the plugin folder, which would shadow
   -- the ones `main` installs (under stdpath('data')/site)
   for _, leftover in ipairs({ 'parser', 'parser-info' }) do
-    vim.fn.delete(vim.fs.joinpath(plugin.dir, leftover), 'rf')
+    local dir = vim.fs.joinpath(plugin.dir, leftover)
+    vim.fn.delete(dir, 'rf')
+    -- Windows keeps a parser a running Neovim has loaded; the new ones come first on the rtp anyway
+    if vim.uv.fs_stat(dir) then
+      log('note: could not remove all of ' .. dir .. ' (in use by a running Neovim?); run this again after closing it')
+    end
   end
   -- the restore above may have just switched the plugin over from `master`: use the new modules
   for name in pairs(package.loaded) do
