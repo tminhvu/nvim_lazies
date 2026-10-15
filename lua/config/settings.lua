@@ -46,7 +46,11 @@ vim.o.breakindent = true
 vim.opt.undofile = true
 vim.o.ignorecase = true
 vim.o.smartcase = true
-vim.o.signcolumn = 'auto:3'
+-- fixed-width gutter, one cell each for git and diagnostic, then the number (config.statuscolumn):
+-- 'signcolumn=auto' grew it 2-4 columns whenever an error or git sign appeared, shoving the
+-- text sideways mid-typing
+vim.o.signcolumn = 'no'
+vim.o.statuscolumn = "%!v:lua.require'config.statuscolumn'.render()"
 vim.o.cursorline = true
 --vim.o.showtabline = 2
 vim.g.markdown_fenced_languages = { 'java', 'c', 'javascript', 'lua', 'html', 'css' }
