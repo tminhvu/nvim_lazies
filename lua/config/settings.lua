@@ -35,7 +35,7 @@ vim.o.foldmethod = "expr"
 vim.o.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
 vim.o.foldtext =
 [[substitute(getline(v:foldstart),'\\t',repeat('\ ',&tabstop),'g').'...'.trim(getline(v:foldend)) . ' (' . (v:foldend - v:foldstart + 1) . ' lines)']]
-vim.o.fillchars = "fold: "
+vim.o.fillchars = "fold: ,eob: " -- eob: blank instead of ~ on the empty lines past the end of the buffer
 vim.o.foldlevel = 20
 vim.o.foldenable = false
 vim.o.foldminlines = 1
