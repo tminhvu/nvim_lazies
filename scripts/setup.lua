@@ -1,8 +1,8 @@
 -- Neovim-side setup, run by install.ps1 / install.sh once the system tools are in place:
 --   nvim --headless "+lua dofile([[scripts/setup.lua]])"
 -- Installs plugins at the lazy-lock.json versions, builds the treesitter parsers, installs the
--- LSP servers with mason, installs the Neovide, Alacritty and tmux configs, adds an `n` alias for
--- neovide and, on Windows, bash-style Tab completion to PowerShell.
+-- LSP servers with mason, installs the Neovide, Alacritty, tmux and (Windows) Windows Terminal configs,
+-- adds an `n` alias for neovide and, on Windows, bash-style Tab completion to PowerShell.
 -- Safe to run again after every pull.
 
 local repo = vim.fs.dirname(vim.fs.dirname(vim.fs.normalize(debug.getinfo(1, 'S').source:sub(2))))
@@ -136,6 +136,17 @@ step('Alacritty config')
 local repos = vim.fs.normalize(vim.fs.joinpath(vim.uv.os_homedir(), 'Repos'))
 install_config(vim.fs.joinpath(app_config, 'alacritty', 'alacritty.toml'), { 'alacritty/alacritty.toml' },
   vim.fn.isdirectory(repos) == 1 and { '', '[general]', ("working_directory = '%s'"):format(repos) } or {})
+
+if is_windows then
+  step('Windows Terminal settings')
+  -- the Store app (and Preview) keep settings.json in their package folder; skipped if not installed
+  local found = false
+  for _, dir in ipairs(vim.fn.glob(vim.fs.joinpath(vim.env.LOCALAPPDATA, 'Packages', 'Microsoft.WindowsTerminal*', 'LocalState'), false, true)) do
+    found = true
+    install_config(vim.fs.joinpath(vim.fs.normalize(dir), 'settings.json'), { 'windows-terminal/settings.json' })
+  end
+  if not found then log('note: Windows Terminal is not installed; skipped its settings') end
+end
 
 step('tmux config')
 -- tmux on Linux, psmux (tmux for Windows) on Windows: both read ~/.tmux.conf

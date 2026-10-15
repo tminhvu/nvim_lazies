@@ -25,7 +25,7 @@ git clone https://github.com/tminhvu/nvim_lazies ~/.config/nvim
 The installer sets up:
 
 - **Tools:** Neovim 0.12+, git, the tree-sitter CLI (0.26.1+) and a C compiler to build the treesitter parsers (zig on Windows, gcc on Linux), fzf, ripgrep, fd, Node.js for the npm-based LSP servers, a clipboard tool on Linux, Neovide, Alacritty with tmux (psmux on Windows), and the JetBrainsMono and Iosevka Nerd Fonts in their Mono variants, whose icons are one cell wide like the text. Windows uses winget. Linux uses the distro's packages, falling back to the official Neovim, tree-sitter, Neovide and Nerd Font releases in `~/.local` when those are missing or too old.
-- **Neovim side (`scripts/setup.lua`):** plugins at the `lazy-lock.json` versions, the treesitter parsers, the LSP servers through mason, the Neovide, Alacritty and tmux configs, an `n` alias for Neovide, and on Windows bash-style Tab completion in PowerShell. Tab completes as far as the matches agree, and a second Tab lists them all (`Set-PSReadLineKeyHandler -Key Tab -Function Complete` in your PowerShell profile).
+- **Neovim side (`scripts/setup.lua`):** plugins at the `lazy-lock.json` versions, the treesitter parsers, the LSP servers through mason, the Neovide, Alacritty, tmux and Windows Terminal configs, an `n` alias for Neovide, and on Windows bash-style Tab completion in PowerShell. Tab completes as far as the matches agree, and a second Tab lists them all (`Set-PSReadLineKeyHandler -Key Tab -Function Complete` in your PowerShell profile).
 
 Use a normal terminal, not one inside an app installed from the Microsoft Store (MSIX). Such an app can get a private, redirected copy of AppData, so the Neovide config would never reach the real `%APPDATA%`. `install.ps1` checks for this and stops.
 
@@ -34,6 +34,15 @@ Use a normal terminal, not one inside an app installed from the Microsoft Store 
 - `neovide/config.toml` is copied to `%APPDATA%\neovide\config.toml` on Windows and `~/.config/neovide/config.toml` on Linux. If the installed copy differs, it's backed up as `config.toml.bak` first.
 - `n` and `n file` open Neovide. The alias goes in your PowerShell profile, or in `.bashrc`, `.zshrc` or fish's `config.fish`.
 - `Ctrl+=` / `Ctrl+-` zoom in and out, and `Ctrl+0` resets (`lua/config/neovide.lua`). Zoom isn't saved; to keep a size, change `size` in `neovide/config.toml`.
+
+## Windows Terminal
+
+`windows-terminal/settings.json` is installed over Windows Terminal's own `settings.json` (in its package folder; a differing copy is backed up as `.bak` first). It's skipped if Windows Terminal isn't installed. The settings:
+- Iosevka Nerd Font Mono 11 SemiBold with ClearType, and the Tango Light colors
+- Windows PowerShell, starting in `%USERPROFILE%\Repos`
+- the same tab keys as Alacritty + tmux: `Ctrl+Shift+T` new tab, `Ctrl+Shift+Q` close tab, `Alt+1` … `Alt+9` go to tab 1 … 9
+
+Changes made in Windows Terminal's settings screen are overwritten on the next install; to keep one, copy it into this file.
 
 ## Alacritty + tmux
 
