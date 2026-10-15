@@ -1,7 +1,7 @@
 -- Neovim-side setup, run by install.ps1 / install.sh once the system tools are in place:
 --   nvim --headless "+lua dofile([[scripts/setup.lua]])"
 -- Installs plugins at the lazy-lock.json versions, builds the treesitter parsers, installs the
--- LSP servers with mason, installs the Neovide and Alacritty configs and adds an `n` alias for
+-- LSP servers with mason, installs the Neovide, Alacritty and tmux configs and adds an `n` alias for
 -- neovide.
 -- Safe to run again after every pull.
 
@@ -111,11 +111,12 @@ if not vim.wait(30 * 60 * 1000, function() return pending == 0 end, 500) then
   fail('timed out waiting for mason installs')
 end
 
--- install `dst` as the repo files `srcs` joined together, keeping a backup if the installed one
--- differs (local edits or an older version)
-local function install_config(dst, srcs)
+-- install `dst` as the repo files `srcs` joined together (plus `extra` lines), keeping a backup if
+-- the installed one differs (local edits or an older version)
+local function install_config(dst, srcs, extra)
   local lines = {}
   for _, src in ipairs(srcs) do vim.list_extend(lines, vim.fn.readfile(vim.fs.joinpath(repo, src))) end
+  vim.list_extend(lines, extra or {})
   vim.fn.mkdir(vim.fs.dirname(dst), 'p')
   if vim.uv.fs_stat(dst) and not vim.deep_equal(vim.fn.readfile(dst), lines) then
     assert(vim.uv.fs_copyfile(dst, dst .. '.bak'))
@@ -131,8 +132,15 @@ step('Neovide config')
 install_config(vim.fs.joinpath(app_config, 'neovide', 'config.toml'), { 'neovide/config.toml' })
 
 step('Alacritty config')
-install_config(vim.fs.joinpath(app_config, 'alacritty', 'alacritty.toml'),
-  is_windows and { 'alacritty/alacritty.toml', 'alacritty/windows.toml' } or { 'alacritty/alacritty.toml' })
+-- start in ~/Repos when it exists (tmux, its shell, then opens there); Alacritty needs the full path
+local repos = vim.fs.normalize(vim.fs.joinpath(vim.uv.os_homedir(), 'Repos'))
+install_config(vim.fs.joinpath(app_config, 'alacritty', 'alacritty.toml'), { 'alacritty/alacritty.toml' },
+  vim.fn.isdirectory(repos) == 1 and { '', '[general]', ("working_directory = '%s'"):format(repos) } or {})
+
+step('tmux config')
+-- tmux on Linux, psmux (tmux for Windows) on Windows: both read ~/.tmux.conf
+install_config(vim.fs.joinpath(vim.uv.os_homedir(), '.tmux.conf'),
+  { 'tmux/tmux.conf', is_windows and 'tmux/windows.conf' or 'tmux/linux.conf' })
 
 step('`n` alias for neovide')
 -- added once, appended so the rest of the file is untouched

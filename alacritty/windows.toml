@@ -1,6 +1,0 @@
-
-# Windows only (scripts/setup.lua appends this to alacritty.toml there)
-[terminal.shell]
-# Windows PowerShell, starting in ~\Repos when it exists (like the Windows Terminal profile)
-program = "powershell.exe"
-args = ["-NoLogo", "-NoExit", "-Command", "if (Test-Path ~\\Repos) { Set-Location ~\\Repos }"]

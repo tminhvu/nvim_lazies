@@ -22,19 +22,19 @@ install_packages() {
   if have apt-get; then
     sudo apt-get update
     sudo apt-get install -y git build-essential curl unzip tar gzip xz-utils \
-      fzf ripgrep fd-find nodejs npm xclip wl-clipboard fontconfig
+      fzf ripgrep fd-find nodejs npm xclip wl-clipboard fontconfig tmux
     # Debian/Ubuntu ship fd as `fdfind`
     if ! have fd && have fdfind; then ln -sf "$(command -v fdfind)" "$bin/fd"; fi
   elif have dnf; then
     sudo dnf install -y git gcc gcc-c++ make curl unzip tar gzip xz \
-      fzf ripgrep fd-find nodejs npm xclip wl-clipboard fontconfig
+      fzf ripgrep fd-find nodejs npm xclip wl-clipboard fontconfig tmux
   elif have pacman; then
     sudo pacman -S --needed --noconfirm git base-devel curl unzip tar gzip xz \
-      fzf ripgrep fd nodejs npm xclip wl-clipboard fontconfig \
+      fzf ripgrep fd nodejs npm xclip wl-clipboard fontconfig tmux \
       neovim neovide
   else
     log "no apt-get, dnf or pacman: install git, a C compiler, curl, unzip, xz, fzf, ripgrep, fd,"
-    log "nodejs/npm and xclip or wl-clipboard yourself, then run this again"
+    log "nodejs/npm, tmux and xclip or wl-clipboard yourself, then run this again"
     exit 1
   fi
 }
@@ -90,24 +90,47 @@ install_neovide() {
   curl -fsSL "https://github.com/neovide/neovide/releases/latest/download/neovide-linux-x86_64.tar" | tar -xf - -C "$bin"
 }
 
-# lightweight terminal (alacritty/alacritty.toml). No official Linux builds, so it comes from the
-# distro where it's packaged; its TOML config needs Alacritty 0.13+.
-install_alacritty() {
-  if ! have alacritty; then
-    log "installing Alacritty"
-    if have apt-get; then sudo apt-get install -y alacritty || true
-    elif have dnf; then sudo dnf install -y alacritty || true
-    elif have pacman; then sudo pacman -S --needed --noconfirm alacritty || true
-    fi
-  fi
-  if ! have alacritty; then log "note: no Alacritty package on this system; skipped it"; return; fi
+# lightweight terminal (alacritty/alacritty.toml, which needs 0.14+), running tmux for tabs
+alacritty_is_recent() {
+  have alacritty || return 1
   local major minor
   read -r major minor < <(alacritty --version | sed -E 's/^alacritty ([0-9]+)\.([0-9]+).*/\1 \2/')
-  if [ "$major" -eq 0 ] && [ "$minor" -lt 13 ]; then
-    log "note: $(alacritty --version) is too old for this config (needs 0.13+)"
-  else
-    log "ok         $(alacritty --version)"
+  [ "$major" -gt 0 ] || [ "$minor" -ge 14 ]
+}
+
+# from the distro when it packages a new enough one; otherwise built from source with cargo
+# (Alacritty has no official Linux builds) into ~/.local/bin, with an app launcher entry
+install_alacritty() {
+  if alacritty_is_recent; then log "ok         $(alacritty --version)"; return; fi
+  if have apt-get; then sudo apt-get install -y alacritty || true
+  elif have dnf; then sudo dnf install -y alacritty || true
+  elif have pacman; then sudo pacman -S --needed --noconfirm alacritty || true
   fi
+  if alacritty_is_recent; then log "ok         $(alacritty --version)"; return; fi
+  log "building Alacritty from source (the distro's is missing or older than 0.14; takes a few minutes)"
+  if have apt-get; then
+    sudo apt-get install -y cmake g++ pkg-config libfreetype6-dev libfontconfig1-dev \
+      libxcb-xfixes0-dev libxkbcommon-dev python3
+  elif have dnf; then
+    sudo dnf install -y cmake g++ freetype-devel fontconfig-devel libxcb-devel libxkbcommon-devel
+  fi
+  if ! have cargo && [ ! -x "$HOME/.cargo/bin/cargo" ]; then
+    curl --proto '=https' --tlsv1.2 -fsSL https://sh.rustup.rs | sh -s -- -y --profile minimal --no-modify-path
+  fi
+  "$(command -v cargo || echo "$HOME/.cargo/bin/cargo")" install --locked alacritty --root "$HOME/.local"
+  # same id as the distro's entry, so the launcher opens this one
+  mkdir -p "$HOME/.local/share/applications"
+  cat >"$HOME/.local/share/applications/Alacritty.desktop" <<EOF
+[Desktop Entry]
+Type=Application
+Name=Alacritty
+Comment=Terminal (tmux tabs)
+Exec=$bin/alacritty
+Icon=utilities-terminal
+Terminal=false
+Categories=System;TerminalEmulator;
+EOF
+  log "installed $("$bin/alacritty" --version)"
 }
 
 # $1 = Nerd Fonts release name, e.g. JetBrainsMono; installs the <name>NerdFont-*.ttf variant

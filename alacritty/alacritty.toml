@@ -1,6 +1,19 @@
-# Alacritty: a lightweight terminal for nvim, in nvim's own colors (catppuccin latte). scripts/setup.lua
-# installs this as alacritty.toml in Alacritty's config folder (%APPDATA%\alacritty on Windows,
-# ~/.config/alacritty on Linux), with windows.toml appended on Windows.
+# Alacritty: a lightweight terminal for nvim, in nvim's own colors (catppuccin latte), running tmux for
+# tabs (tmux/tmux.conf; psmux on Windows). scripts/setup.lua installs this as alacritty.toml in
+# Alacritty's config folder (%APPDATA%\alacritty on Windows, ~/.config/alacritty on Linux), and makes
+# it start in ~/Repos when that exists.
+
+[terminal.shell]
+program = "tmux"
+args = ["new-session"]
+
+# tabs (tmux windows): terminals send Ctrl+Shift+T / Ctrl+Shift+Q like Ctrl+T / Ctrl+Q, so pass them
+# on as Alt+t / Alt+q, which tmux.conf binds to new tab / close tab. Alt+1..9 reach tmux as they are.
+[keyboard]
+bindings = [
+  { key = "T", mods = "Control|Shift", chars = "\u001bt" },
+  { key = "Q", mods = "Control|Shift", chars = "\u001bq" },
+]
 
 [window]
 dimensions = { columns = 120, lines = 30 }
