@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
-# Set up this Neovim config on Linux: system tools, then plugins, treesitter parsers, LSP servers,
-# the Neovide config and an `n` alias (scripts/setup.lua). Safe to run again after a pull.
+# Set up this Neovim config on Linux or macOS: system tools, then plugins, treesitter parsers, LSP
+# servers, the Neovide config and an `n` alias (scripts/setup.lua). Safe to run again after a pull.
 #
 #   ~/.config/nvim/install.sh
 #
 # Packages come from apt, dnf or pacman (sudo). Neovim, the tree-sitter CLI, Neovide and the Nerd
 # Fonts come from their official releases when the distro's versions are missing or too old; those
-# go in ~/.local.
+# go in ~/.local. On macOS everything comes from Homebrew.
 set -euo pipefail
 
 repo="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -146,12 +146,57 @@ install_font() {
   fc-cache -f "$dir" >/dev/null
 }
 
+# $1 = Nerd Fonts release name, $2 = its Homebrew cask. The cask brings every variant, the Mono one
+# included; skipped when that's already there, since the cask refuses to overwrite font files
+install_macos_font() {
+  local f
+  for f in "$HOME/Library/Fonts/$1NerdFontMono-"* "/Library/Fonts/$1NerdFontMono-"*; do
+    if [ -e "$f" ]; then log "ok         $1 Nerd Font Mono"; return; fi
+  done
+  log "installing $1 Nerd Font"
+  brew install --cask "$2"
+}
+
+# Homebrew for everything. clang comes with the Xcode command line tools; macOS's own bash is 3.2,
+# so nothing newer than that here
 install_macos() {
-  # TODO(macOS): Homebrew: neovim git tree-sitter-cli fzf ripgrep fd node, and casks neovide, alacritty,
-  # font-jetbrains-mono-nerd-font, font-iosevka-nerd-font. clang comes with the Xcode command line
-  # tools. Then the same scripts/setup.lua run as below.
-  log "macOS setup isn't written yet"
-  exit 1
+  if ! have brew; then
+    # a new shell may not have it on PATH yet
+    for b in /opt/homebrew/bin/brew /usr/local/bin/brew; do
+      if [ -x "$b" ]; then eval "$("$b" shellenv)"; break; fi
+    done
+  fi
+  if ! have brew; then
+    log "Homebrew is missing: install it from https://brew.sh, then run this again"
+    exit 1
+  fi
+  if ! xcode-select -p >/dev/null 2>&1; then
+    log "installing the Xcode command line tools (a C compiler for the treesitter parsers);"
+    log "finish the dialog that opens, then run this again"
+    xcode-select --install || true
+    exit 1
+  fi
+  # only what's missing: `brew install` would also upgrade the ones already there
+  local formula missing=""
+  for formula in neovim git tree-sitter-cli fzf ripgrep fd node tmux; do
+    if brew list --formula "$formula" >/dev/null 2>&1; then log "ok         $formula"
+    else missing="$missing $formula"
+    fi
+  done
+  # unquoted on purpose: one word per formula
+  if [ -n "$missing" ]; then brew install $missing; fi
+  nvim_is_recent || { log "Homebrew's Neovim is older than 0.12: run brew upgrade neovim"; exit 1; }
+  tree_sitter_is_recent || { log "tree-sitter is older than 0.26.1: run brew upgrade tree-sitter-cli"; exit 1; }
+
+  if have neovide || [ -d /Applications/Neovide.app ]; then log "ok         neovide"
+  else brew install --cask neovide-app
+  fi
+  # Homebrew disabled its Alacritty cask (the app fails Gatekeeper); its config is installed anyway
+  if have alacritty || [ -d /Applications/Alacritty.app ]; then log "ok         alacritty"
+  else log "skipping Alacritty: Homebrew no longer packages it; see https://alacritty.org for a build"
+  fi
+  install_macos_font JetBrainsMono font-jetbrains-mono-nerd-font
+  install_macos_font Iosevka font-iosevka-nerd-font
 }
 
 case "$(uname -s)" in
@@ -184,8 +229,9 @@ if ! cmp -s "$pinned" "$repo/lazy-lock.json"; then
 fi
 rm -f "$pinned"
 
-case ":$original_path:" in
-  *":$bin:"*) ;;
+# only Linux puts tools in ~/.local/bin
+case "$(uname -s):$original_path:" in
+  Darwin:* | *":$bin:"*) ;;
   *) log "note: add $bin to your PATH (e.g. in ~/.profile) so nvim, tree-sitter, neovide and fd are found" ;;
 esac
 exit "$status"
