@@ -29,6 +29,8 @@ git clone https://github.com/tminhvu/nvim_lazies ~/.config/nvim
 
 Homebrew no longer packages Alacritty (its app fails Gatekeeper), so the installer skips it; its config is still installed for when you add it yourself.
 
+The Option key types symbols on macOS, so Alt shortcuts like Alt+hjkl (move between splits) need it to act as Alt. Neovide and Alacritty use the left Option key as Alt (the right one still types symbols). In Terminal.app, turn on Settings → Profiles → Keyboard → Use Option as Meta key; it's saved per profile.
+
 The installer sets up:
 
 - **Tools:** Neovim 0.12+, git, the tree-sitter CLI (0.26.1+) and a C compiler to build the treesitter parsers (zig on Windows, gcc on Linux, clang on macOS), fzf, ripgrep, fd, Node.js for the npm-based LSP servers, a clipboard tool on Linux, Neovide, Alacritty with tmux (psmux on Windows), and the JetBrainsMono and Iosevka Nerd Fonts in their Mono variants, whose icons are one cell wide like the text. Windows uses winget, macOS Homebrew. Linux uses the distro's packages, falling back to the official Neovim, tree-sitter, Neovide and Nerd Font releases in `~/.local` when those are missing or too old.

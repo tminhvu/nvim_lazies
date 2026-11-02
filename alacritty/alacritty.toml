@@ -19,6 +19,9 @@ bindings = [
 dimensions = { columns = 120, lines = 30 }
 padding = { x = 6, y = 4 }
 dynamic_padding = true
+# macOS only: the left Option key is Alt (nvim's Alt+hjkl, tmux's Alt+1..9); the right one still
+# types symbols like € and –
+option_as_alt = "OnlyLeft"
 
 [scrolling]
 history = 5000
