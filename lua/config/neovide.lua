@@ -69,6 +69,10 @@ vim.keymap.set({ 'n', 'v', 'i' }, '<F11>', function()
   vim.g.neovide_fullscreen = not vim.g.neovide_fullscreen
 end, { desc = 'Neovide: toggle fullscreen' })
 
+-- macOS: the left Option key is Alt (Alt+hjkl moves between splits, config.keymaps); the right one
+-- still types symbols like € and –
+vim.g.neovide_input_macos_option_key_is_meta = 'only_left'
+
 -- title bar (Windows) in the colorscheme's own colors, following :colorscheme changes
 local function match_title_bar()
   local normal = vim.api.nvim_get_hl(0, { name = 'Normal', link = false })

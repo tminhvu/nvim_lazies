@@ -20,11 +20,20 @@ git clone https://github.com/tminhvu/nvim_lazies ~/.config/nvim
 ~/.config/nvim/install.sh
 ```
 
-**macOS**: not written yet (`install_macos` in `install.sh`).
+**macOS** (needs [Homebrew](https://brew.sh); asks for the Xcode command line tools if they're missing):
+
+```sh
+git clone https://github.com/tminhvu/nvim_lazies ~/.config/nvim
+~/.config/nvim/install.sh
+```
+
+Homebrew no longer packages Alacritty (its app fails Gatekeeper), so the installer skips it; its config is still installed for when you add it yourself.
+
+The Option key types symbols on macOS, so Alt shortcuts like Alt+hjkl (move between splits) need it to act as Alt. Neovide and Alacritty use the left Option key as Alt (the right one still types symbols). In Terminal.app, turn on Settings → Profiles → Keyboard → Use Option as Meta key; it's saved per profile.
 
 The installer sets up:
 
-- **Tools:** Neovim 0.12+, git, the tree-sitter CLI (0.26.1+) and a C compiler to build the treesitter parsers (zig on Windows, gcc on Linux), fzf, ripgrep, fd, Node.js for the npm-based LSP servers, a clipboard tool on Linux, Neovide, Alacritty with tmux (psmux on Windows), and the JetBrainsMono and Iosevka Nerd Fonts in their Mono variants, whose icons are one cell wide like the text. Windows uses winget. Linux uses the distro's packages, falling back to the official Neovim, tree-sitter, Neovide and Nerd Font releases in `~/.local` when those are missing or too old.
+- **Tools:** Neovim 0.12+, git, the tree-sitter CLI (0.26.1+) and a C compiler to build the treesitter parsers (zig on Windows, gcc on Linux, clang on macOS), fzf, ripgrep, fd, Node.js for the npm-based LSP servers, a clipboard tool on Linux, Neovide, Alacritty with tmux (psmux on Windows), and the JetBrainsMono and Iosevka Nerd Fonts in their Mono variants, whose icons are one cell wide like the text. Windows uses winget, macOS Homebrew. Linux uses the distro's packages, falling back to the official Neovim, tree-sitter, Neovide and Nerd Font releases in `~/.local` when those are missing or too old.
 - **Neovim side (`scripts/setup.lua`):** plugins at the `lazy-lock.json` versions, the treesitter parsers, the LSP servers through mason, the Neovide, Alacritty, tmux and Windows Terminal configs, an `n` alias for Neovide, and on Windows bash-style Tab completion in PowerShell. Tab completes as far as the matches agree, and a second Tab lists them all (`Set-PSReadLineKeyHandler -Key Tab -Function Complete` in your PowerShell profile).
 
 Use a normal terminal, not one inside an app installed from the Microsoft Store (MSIX). Such an app can get a private, redirected copy of AppData, so the Neovide config would never reach the real `%APPDATA%`. `install.ps1` checks for this and stops.
